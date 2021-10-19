@@ -17,27 +17,29 @@ public class TravelAsciiMap {
     StringBuilder pathAsCharacters = new StringBuilder();
     StringBuilder letters = new StringBuilder();
 
-    Coordinates currentCoordinates = asciiMap.startCoordinates();
-    Coordinates endCoordinates = asciiMap.endCoordinates();
+    Coordinates travelCoordinates = asciiMap.startCoordinates();
+    Coordinates endTravelCoordinates = asciiMap.endCoordinates();
 
-    asciiMap.visitCoordinates(currentCoordinates);
+    asciiMap.visitCoordinates(travelCoordinates);
 
-    pathAsCharacters.append(asciiMap.getCharForCoordinates(currentCoordinates));
-    Direction currentDirection = Direction.findStartingDirection(asciiMap, currentCoordinates);
+    pathAsCharacters.append(asciiMap.getCharForCoordinates(travelCoordinates));
+    Direction travelDirection = Direction.findStartingDirection(asciiMap, travelCoordinates);
 
-    while (!currentCoordinates.equals(endCoordinates)) {
-      currentCoordinates = updateCoordinates(currentCoordinates, currentDirection);
-      char currentCharacter = asciiMap.getCharForCoordinates(currentCoordinates);
+    while (!travelCoordinates.equals(endTravelCoordinates)) {
+      travelCoordinates = travelByDirection(travelCoordinates, travelDirection);
+      char currentCharacter = asciiMap.getCharForCoordinates(travelCoordinates);
+
       pathAsCharacters.append(currentCharacter);
-      if (Letters.isLetter(currentCharacter) && !asciiMap.areCoordinatesVisited(currentCoordinates))
-        letters.append(asciiMap.getCharForCoordinates(currentCoordinates));
-      asciiMap.visitCoordinates(currentCoordinates);
-      currentDirection = Direction.findDirection(asciiMap, currentCoordinates, currentDirection);
+      if (Letters.isLetter(currentCharacter) && !asciiMap.areCoordinatesVisited(travelCoordinates))
+        letters.append(currentCharacter);
+
+      asciiMap.visitCoordinates(travelCoordinates);
+      travelDirection = Direction.findDirection(asciiMap, travelCoordinates, travelDirection);
     }
     return new Solution(pathAsCharacters.toString(), letters.toString());
   }
 
-  private Coordinates updateCoordinates(Coordinates coordinates, Direction currentDirection)
+  private Coordinates travelByDirection(Coordinates coordinates, Direction currentDirection)
     throws Exception
   {
     switch (currentDirection) {
