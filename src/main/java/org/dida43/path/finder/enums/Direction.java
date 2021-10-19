@@ -39,13 +39,13 @@ public enum Direction {
   {
     char inspected = asciiMap.getCharForCoordinates(position);
     if (inspected == Characters.TURN.value())
-      return handleTurn(asciiMap, position, currentDirection);
+      return directionForTurn(asciiMap, position, currentDirection);
     if (Letters.isLetter(inspected))
-      return handleLetter(asciiMap, position, currentDirection);
+      return directionForLetter(asciiMap, position, currentDirection);
     return currentDirection;
   }
 
-  private static Direction handleTurn(
+  private static Direction directionForTurn(
     AsciiMap asciiMap, Coordinates coordinates, Direction currentDirection) throws Exception
   {
     if (currentDirection == Direction.UP || currentDirection == Direction.DOWN) {
@@ -71,9 +71,10 @@ public enum Direction {
     throw new Exception("Fake turn");
   }
 
-  private static Direction handleLetter(
+  private static Direction directionForLetter(
     AsciiMap asciiMap, Coordinates coordinates, Direction currentDirection) throws Exception
   {
+    //todo:write test for letter on t intersection
     char upChar = asciiMap.getCharForCoordinates(coordinates.up());
     char downChar = asciiMap.getCharForCoordinates(coordinates.down());
     char leftChar = asciiMap.getCharForCoordinates(coordinates.left());
@@ -87,7 +88,7 @@ public enum Direction {
     if (currentDirection == Direction.RIGHT && charTraversable(rightChar))
       return currentDirection;
 
-    return handleTurn(asciiMap, coordinates, currentDirection);
+    return directionForTurn(asciiMap, coordinates, currentDirection);
   }
 
   private static boolean charTraversable(char c) {
