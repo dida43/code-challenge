@@ -17,10 +17,10 @@ public class TravelAsciiMap {
     StringBuilder pathAsCharacters = new StringBuilder();
     StringBuilder letters = new StringBuilder();
 
-    Coordinates currentCoordinates = asciiMap.getStartCoordinates();
-    Coordinates endCoordinates = asciiMap.getEndCoordinates();
+    Coordinates currentCoordinates = asciiMap.startCoordinates();
+    Coordinates endCoordinates = asciiMap.endCoordinates();
 
-    asciiMap.updateMapOfCoordinatesVisited(currentCoordinates);
+    asciiMap.visitCoordinates(currentCoordinates);
 
     pathAsCharacters.append(asciiMap.getCharForCoordinates(currentCoordinates));
     Direction currentDirection = Direction.findStartingDirection(asciiMap, currentCoordinates);
@@ -31,7 +31,7 @@ public class TravelAsciiMap {
       pathAsCharacters.append(currentCharacter);
       if (Letters.isLetter(currentCharacter) && !asciiMap.areCoordinatesVisited(currentCoordinates))
         letters.append(asciiMap.getCharForCoordinates(currentCoordinates));
-      asciiMap.updateMapOfCoordinatesVisited(currentCoordinates);
+      asciiMap.visitCoordinates(currentCoordinates);
       currentDirection = Direction.findDirection(asciiMap, currentCoordinates, currentDirection);
     }
     return new Solution(pathAsCharacters.toString(), letters.toString());

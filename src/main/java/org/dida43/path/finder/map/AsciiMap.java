@@ -20,7 +20,7 @@ public class AsciiMap {
     }
   }
 
-  public void updateMapOfCoordinatesVisited(Coordinates coordinates) {
+  public void visitCoordinates(Coordinates coordinates) {
     mapOfCoordinatesVisited[coordinates.row()][coordinates.column()] = true;
   }
 
@@ -28,7 +28,7 @@ public class AsciiMap {
     return mapOfCoordinatesVisited[position.row()][position.column()];
   }
 
-  public Coordinates getStartCoordinates() throws Exception {
+  public Coordinates startCoordinates() throws Exception {
     Coordinates startingCoordinates = null;
     for (int i = 0; i < map.length; i++) {
       for (int j = 0; j < map[i].length; j++) {
@@ -44,7 +44,7 @@ public class AsciiMap {
     return startingCoordinates;
   }
 
-  public Coordinates getEndCoordinates() throws Exception {
+  public Coordinates endCoordinates() throws Exception {
     Coordinates endCoordinates = null;
     for (int i = 0; i < map.length; i++) {
       for (int j = 0; j < map[i].length; j++) {
