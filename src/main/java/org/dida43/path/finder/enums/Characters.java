@@ -1,5 +1,8 @@
 package org.dida43.path.finder.enums;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum Characters {
   STARTING('@'), TURN('+'), HORIZONTAL('-'), VERTICAL('|'), END('x');
 
@@ -14,10 +17,14 @@ public enum Characters {
   }
 
   public static boolean isCharacter(char c) {
+    return lookup.get(c) != null;
+  }
+
+  private static final Map<Character, Characters> lookup = new HashMap<>();
+
+  static {
     for (Characters character : Characters.values()) {
-      if (character.value() == c)
-        return true;
+      lookup.put(character.value, character);
     }
-    return false;
   }
 }
