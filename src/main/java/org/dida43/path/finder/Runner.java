@@ -1,7 +1,7 @@
 package org.dida43.path.finder;
 
 import org.dida43.path.finder.map.AsciiMap;
-import org.dida43.path.finder.map.Solution;
+import org.dida43.path.finder.pojos.Solution;
 
 public class Runner {
   public static Solution run(String mapAsString) {

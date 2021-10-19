@@ -4,6 +4,7 @@ import org.dida43.path.finder.enums.Characters;
 import org.dida43.path.finder.enums.Direction;
 import org.dida43.path.finder.enums.Letters;
 import org.dida43.path.finder.pojos.Coordinates;
+import org.dida43.path.finder.pojos.Solution;
 
 public class AsciiMap {
   private final char map[][];
@@ -54,24 +55,27 @@ public class AsciiMap {
   }
 
   public Solution findSolution() throws Exception {
-    Solution solution = new Solution();
+    StringBuilder pathAsCharacters = new StringBuilder();
+    StringBuilder letters = new StringBuilder();
 
     Coordinates currentCoordinates = getStartCoordinates();
     Coordinates endCoordinates = getEndCoordinates();
 
     updateMapOfCoordinatesVisited(currentCoordinates);
 
-    solution.appendPathCharacter(getCharForCoordinates(currentCoordinates));
+    pathAsCharacters.append(getCharForCoordinates(currentCoordinates));
     Direction currentDirection = findStartingDirection(currentCoordinates);
 
     while (!currentCoordinates.equals(endCoordinates)) {
       currentCoordinates = updateCoordinates(currentCoordinates, currentDirection);
-      solution.appendPathCharacter(getCharForCoordinates(currentCoordinates));
-      solution.appendLetter(getCharForCoordinates(currentCoordinates), areCoordinatesVisited(currentCoordinates));
+      char currentCharacter = getCharForCoordinates(currentCoordinates);
+      pathAsCharacters.append(currentCharacter);
+      if (Letters.isLetter(currentCharacter) && !areCoordinatesVisited(currentCoordinates))
+        letters.append(getCharForCoordinates(currentCoordinates));
       updateMapOfCoordinatesVisited(currentCoordinates);
       currentDirection = findDirection(currentCoordinates, currentDirection);
     }
-    return solution;
+    return new Solution(pathAsCharacters.toString(), letters.toString());
   }
 
   private void updateMapOfCoordinatesVisited(Coordinates coordinates) {
@@ -92,7 +96,8 @@ public class AsciiMap {
     return currentDirection;
   }
 
-  private Direction handleTurn(Coordinates coordinates, Direction currentDirection) throws Exception {
+  private Direction handleTurn(Coordinates coordinates, Direction currentDirection) throws Exception
+  {
     if (currentDirection == Direction.UP || currentDirection == Direction.DOWN) {
       char leftChar = getCharForCoordinates(coordinates.left());
       char rightChar = getCharForCoordinates(coordinates.right());
@@ -116,7 +121,8 @@ public class AsciiMap {
     throw new Exception("Fake turn");
   }
 
-  private Direction handleLetter(Coordinates coordinates, Direction currentDirection) throws Exception
+  private Direction handleLetter(Coordinates coordinates, Direction currentDirection)
+    throws Exception
   {
     char upChar = getCharForCoordinates(coordinates.up());
     char downChar = getCharForCoordinates(coordinates.down());
@@ -157,24 +163,24 @@ public class AsciiMap {
   private Direction findStartingDirection(Coordinates coordinates) throws Exception {
     Direction startingDirection = null;
     int noOfTraversableChars = 0;
-    if(charTraversable(getCharForCoordinates(coordinates.up()))){
+    if (charTraversable(getCharForCoordinates(coordinates.up()))) {
       noOfTraversableChars++;
       startingDirection = Direction.UP;
     }
-    if(charTraversable(getCharForCoordinates(coordinates.down()))){
+    if (charTraversable(getCharForCoordinates(coordinates.down()))) {
       noOfTraversableChars++;
       startingDirection = Direction.DOWN;
     }
-    if(charTraversable(getCharForCoordinates(coordinates.left()))){
+    if (charTraversable(getCharForCoordinates(coordinates.left()))) {
       noOfTraversableChars++;
       startingDirection = Direction.LEFT;
     }
-    if(charTraversable(getCharForCoordinates(coordinates.right()))){
+    if (charTraversable(getCharForCoordinates(coordinates.right()))) {
       noOfTraversableChars++;
       startingDirection = Direction.RIGHT;
     }
 
-    if(noOfTraversableChars != 1)
+    if (noOfTraversableChars != 1)
       throw new Exception("Multiple or no starting paths");
 
     return startingDirection;
