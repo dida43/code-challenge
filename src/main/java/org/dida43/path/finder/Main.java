@@ -8,16 +8,30 @@ import org.dida43.path.finder.pojos.Solution;
 
 public class Main {
 
-  public static void main(String[] args) throws Exception {
+  public static void main(String[] args) {
     if (args.length != 1) {
-      throw new Exception("You need to specify file path!");
+      System.out.println("You need to specify file path!");
+      System.exit(1);
     }
-    String mapAsString = readFile(args[0]);
+    String mapAsString = null;
+    try {
+      mapAsString = readFile(args[0]);
+    } catch (IOException e) {
+      System.out.println("Cannot read file!");
+      System.exit(1);
+    }
 
-    Solution solution = Runner.run(mapAsString);
+    Solution solution = null;
+    try {
+      solution = Runner.run(mapAsString);
+    } catch (Exception e) {
+      System.out.println("Error");
+      System.exit(1);
+    }
 
     System.out.println("Letters: "+solution.letters());
     System.out.println("Path as characters: "+solution.pathAsCharacters());
+    System.exit(0);
   }
 
   static String readFile(String path) throws IOException
