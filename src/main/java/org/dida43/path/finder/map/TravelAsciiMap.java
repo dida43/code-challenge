@@ -14,73 +14,33 @@ public class TravelAsciiMap {
     this.asciiMap = asciiMap;
   }
 
-  private Coordinates getStartCoordinates() throws Exception {
-    Coordinates startingCoordinates = null;
-    for (int i = 0; i < asciiMap.map().length; i++) {
-      for (int j = 0; j < asciiMap.map()[i].length; j++) {
-        if (asciiMap.map()[i][j] == Characters.STARTING.value) {
-          if (startingCoordinates != null)
-            throw new Exception("multiple starting coordinates");
-          startingCoordinates = new Coordinates(i, j);
-        }
-      }
-    }
-    if (startingCoordinates == null)
-      throw new Exception("no starting point");
-    return startingCoordinates;
-  }
-
-  private Coordinates getEndCoordinates() throws Exception {
-    Coordinates endCoordinates = null;
-    for (int i = 0; i < asciiMap.map().length; i++) {
-      for (int j = 0; j < asciiMap.map()[i].length; j++) {
-        if (asciiMap.map()[i][j] == Characters.END.value) {
-          if (endCoordinates != null)
-            throw new Exception("multiple ending coordinates");
-          endCoordinates = new Coordinates(i, j);
-        }
-      }
-    }
-    if (endCoordinates == null)
-      throw new Exception("no ending coordinates");
-    return endCoordinates;
-  }
-
   public Solution findSolution() throws Exception {
     StringBuilder pathAsCharacters = new StringBuilder();
     StringBuilder letters = new StringBuilder();
 
-    Coordinates currentCoordinates = getStartCoordinates();
-    Coordinates endCoordinates = getEndCoordinates();
+    Coordinates currentCoordinates = asciiMap.getStartCoordinates();
+    Coordinates endCoordinates = asciiMap.getEndCoordinates();
 
-    updateMapOfCoordinatesVisited(currentCoordinates);
+    asciiMap.updateMapOfCoordinatesVisited(currentCoordinates);
 
-    pathAsCharacters.append(getCharForCoordinates(currentCoordinates));
+    pathAsCharacters.append(asciiMap.getCharForCoordinates(currentCoordinates));
     Direction currentDirection = findStartingDirection(currentCoordinates);
 
     while (!currentCoordinates.equals(endCoordinates)) {
       currentCoordinates = updateCoordinates(currentCoordinates, currentDirection);
-      char currentCharacter = getCharForCoordinates(currentCoordinates);
+      char currentCharacter = asciiMap.getCharForCoordinates(currentCoordinates);
       pathAsCharacters.append(currentCharacter);
-      if (Letters.isLetter(currentCharacter) && !areCoordinatesVisited(currentCoordinates))
-        letters.append(getCharForCoordinates(currentCoordinates));
-      updateMapOfCoordinatesVisited(currentCoordinates);
+      if (Letters.isLetter(currentCharacter) && !asciiMap.areCoordinatesVisited(currentCoordinates))
+        letters.append(asciiMap.getCharForCoordinates(currentCoordinates));
+      asciiMap.updateMapOfCoordinatesVisited(currentCoordinates);
       currentDirection = findDirection(currentCoordinates, currentDirection);
     }
     return new Solution(pathAsCharacters.toString(), letters.toString());
   }
 
-  private void updateMapOfCoordinatesVisited(Coordinates coordinates) {
-    asciiMap.mapOfCoordinatesVisited()[coordinates.row()][coordinates.column()] = true;
-  }
-
-  private boolean areCoordinatesVisited(Coordinates position) {
-    return asciiMap.mapOfCoordinatesVisited()[position.row()][position.column()];
-  }
-
   private Direction findDirection(Coordinates position, Direction currentDirection) throws Exception
   {
-    char inspected = getCharForCoordinates(position);
+    char inspected = asciiMap.getCharForCoordinates(position);
     if (inspected == Characters.TURN.value())
       return handleTurn(position, currentDirection);
     if (Letters.isLetter(inspected))
@@ -91,8 +51,8 @@ public class TravelAsciiMap {
   private Direction handleTurn(Coordinates coordinates, Direction currentDirection) throws Exception
   {
     if (currentDirection == Direction.UP || currentDirection == Direction.DOWN) {
-      char leftChar = getCharForCoordinates(coordinates.left());
-      char rightChar = getCharForCoordinates(coordinates.right());
+      char leftChar = asciiMap.getCharForCoordinates(coordinates.left());
+      char rightChar = asciiMap.getCharForCoordinates(coordinates.right());
       if (charTraversable(leftChar) && charTraversable(rightChar))
         throw new Exception("T intersection error");
       if (charTraversable(leftChar))
@@ -101,8 +61,8 @@ public class TravelAsciiMap {
         return Direction.RIGHT;
     }
     if (currentDirection == Direction.LEFT || currentDirection == Direction.RIGHT) {
-      char upChar = getCharForCoordinates(coordinates.up());
-      char downChar = getCharForCoordinates(coordinates.down());
+      char upChar = asciiMap.getCharForCoordinates(coordinates.up());
+      char downChar = asciiMap.getCharForCoordinates(coordinates.down());
       if (charTraversable(upChar) && charTraversable(downChar))
         throw new Exception("T intersection error");
       if (charTraversable(upChar))
@@ -116,10 +76,10 @@ public class TravelAsciiMap {
   private Direction handleLetter(Coordinates coordinates, Direction currentDirection)
     throws Exception
   {
-    char upChar = getCharForCoordinates(coordinates.up());
-    char downChar = getCharForCoordinates(coordinates.down());
-    char leftChar = getCharForCoordinates(coordinates.left());
-    char rightChar = getCharForCoordinates(coordinates.right());
+    char upChar = asciiMap.getCharForCoordinates(coordinates.up());
+    char downChar = asciiMap.getCharForCoordinates(coordinates.down());
+    char leftChar = asciiMap.getCharForCoordinates(coordinates.left());
+    char rightChar = asciiMap.getCharForCoordinates(coordinates.right());
     if (currentDirection == Direction.UP && charTraversable(upChar))
       return currentDirection;
     if (currentDirection == Direction.DOWN && charTraversable(downChar))
@@ -155,19 +115,19 @@ public class TravelAsciiMap {
   private Direction findStartingDirection(Coordinates coordinates) throws Exception {
     Direction startingDirection = null;
     int noOfTraversableChars = 0;
-    if (charTraversable(getCharForCoordinates(coordinates.up()))) {
+    if (charTraversable(asciiMap.getCharForCoordinates(coordinates.up()))) {
       noOfTraversableChars++;
       startingDirection = Direction.UP;
     }
-    if (charTraversable(getCharForCoordinates(coordinates.down()))) {
+    if (charTraversable(asciiMap.getCharForCoordinates(coordinates.down()))) {
       noOfTraversableChars++;
       startingDirection = Direction.DOWN;
     }
-    if (charTraversable(getCharForCoordinates(coordinates.left()))) {
+    if (charTraversable(asciiMap.getCharForCoordinates(coordinates.left()))) {
       noOfTraversableChars++;
       startingDirection = Direction.LEFT;
     }
-    if (charTraversable(getCharForCoordinates(coordinates.right()))) {
+    if (charTraversable(asciiMap.getCharForCoordinates(coordinates.right()))) {
       noOfTraversableChars++;
       startingDirection = Direction.RIGHT;
     }
@@ -176,13 +136,5 @@ public class TravelAsciiMap {
       throw new Exception("Multiple or no starting paths");
 
     return startingDirection;
-  }
-
-  private char getCharForCoordinates(Coordinates coordinates) {
-    try {
-      return asciiMap.map()[coordinates.row()][coordinates.column()];
-    } catch (ArrayIndexOutOfBoundsException ex) {
-      return 0;
-    }
   }
 }

@@ -1,5 +1,8 @@
 package org.dida43.path.finder.map;
 
+import org.dida43.path.finder.enums.Characters;
+import org.dida43.path.finder.pojos.Coordinates;
+
 public class AsciiMap {
   private final char map[][];
   private final boolean mapOfCoordinatesVisited[][];
@@ -9,12 +12,52 @@ public class AsciiMap {
     this.mapOfCoordinatesVisited = mapOfCoordinatesVisited;
   }
 
-  public char[][] map() {
-    return map;
+  public char getCharForCoordinates(Coordinates coordinates) {
+    try {
+      return map[coordinates.row()][coordinates.column()];
+    } catch (ArrayIndexOutOfBoundsException ex) {
+      return 0;
+    }
   }
 
-  public boolean[][] mapOfCoordinatesVisited() {
-    return mapOfCoordinatesVisited;
+  public void updateMapOfCoordinatesVisited(Coordinates coordinates) {
+    mapOfCoordinatesVisited[coordinates.row()][coordinates.column()] = true;
+  }
+
+  public boolean areCoordinatesVisited(Coordinates position) {
+    return mapOfCoordinatesVisited[position.row()][position.column()];
+  }
+
+  public Coordinates getStartCoordinates() throws Exception {
+    Coordinates startingCoordinates = null;
+    for (int i = 0; i < map.length; i++) {
+      for (int j = 0; j < map[i].length; j++) {
+        if (map[i][j] == Characters.STARTING.value) {
+          if (startingCoordinates != null)
+            throw new Exception("multiple starting coordinates");
+          startingCoordinates = new Coordinates(i, j);
+        }
+      }
+    }
+    if (startingCoordinates == null)
+      throw new Exception("no starting point");
+    return startingCoordinates;
+  }
+
+  public Coordinates getEndCoordinates() throws Exception {
+    Coordinates endCoordinates = null;
+    for (int i = 0; i < map.length; i++) {
+      for (int j = 0; j < map[i].length; j++) {
+        if (map[i][j] == Characters.END.value) {
+          if (endCoordinates != null)
+            throw new Exception("multiple ending coordinates");
+          endCoordinates = new Coordinates(i, j);
+        }
+      }
+    }
+    if (endCoordinates == null)
+      throw new Exception("no ending coordinates");
+    return endCoordinates;
   }
 
   public static AsciiMap ofString(String inputFile) {
@@ -29,6 +72,4 @@ public class AsciiMap {
     }
     return new AsciiMap(map, mapOfCoordinatesVisited);
   }
-
-
 }
