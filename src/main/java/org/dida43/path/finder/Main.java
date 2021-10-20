@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import org.dida43.path.finder.map.AsciiMap;
+import org.dida43.path.finder.map.TravelAsciiMap;
 import org.dida43.path.finder.pojos.Solution;
 
 public class Main {
@@ -21,9 +23,11 @@ public class Main {
       System.exit(1);
     }
 
+    AsciiMap asciiMap = AsciiMap.ofString(mapAsString);
+    TravelAsciiMap travelAsciiMap = new TravelAsciiMap(asciiMap);
     Solution solution = null;
     try {
-      solution = Runner.run(mapAsString);
+      solution = travelAsciiMap.findSolution();
     } catch (Exception e) {
       System.out.println("Error");
       System.exit(1);
