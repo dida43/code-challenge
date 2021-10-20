@@ -20,9 +20,9 @@ public class TravelAsciiMap {
     Coordinates travelCoordinates = asciiMap.startCoordinates();
     Coordinates endTravelCoordinates = asciiMap.endCoordinates();
 
-    asciiMap.visitCoordinates(travelCoordinates);
-
     pathAsCharacters.append(asciiMap.getCharForCoordinates(travelCoordinates));
+
+    asciiMap.visitCoordinates(travelCoordinates);
     Direction travelDirection = Direction.findStartingDirection(asciiMap, travelCoordinates);
 
     while (!travelCoordinates.equals(endTravelCoordinates)) {

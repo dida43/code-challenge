@@ -20,12 +20,20 @@ public class AsciiMap {
     }
   }
 
-  public void visitCoordinates(Coordinates coordinates) {
-    mapOfCoordinatesVisited[coordinates.row()][coordinates.column()] = true;
+  public void visitCoordinates(Coordinates coordinates) throws Exception {
+    try {
+      mapOfCoordinatesVisited[coordinates.row()][coordinates.column()] = true;
+    } catch (ArrayIndexOutOfBoundsException ex) {
+      throw new Exception("Could not visit coordinates (out of bounds)");
+    }
   }
 
-  public boolean areCoordinatesVisited(Coordinates position) {
-    return mapOfCoordinatesVisited[position.row()][position.column()];
+  public boolean areCoordinatesVisited(Coordinates position) throws Exception {
+    try {
+      return mapOfCoordinatesVisited[position.row()][position.column()];
+    } catch (ArrayIndexOutOfBoundsException ex) {
+      throw new Exception("Could not get visited for coordinates (out of bounds)");
+    }
   }
 
   public Coordinates startCoordinates() throws Exception {
@@ -63,8 +71,7 @@ public class AsciiMap {
   public static AsciiMap ofString(String inputFile) {
     String[] rowLines = inputFile.split(System.lineSeparator());
     int rows = rowLines.length;
-    int columns = rowLines[0].length();
-    char[][] map = new char[rows][columns];
+    char[][] map = new char[rows][];
     boolean[][] mapOfCoordinatesVisited = new boolean[rows][];
     for (int i = 0; i < rows; i++) {
       map[i] = rowLines[i].toCharArray();
