@@ -100,7 +100,7 @@ public enum Path {
     return findPathFromTurn(asciiMap, coordinates, currentPath);
   }
 
-  private static boolean charTraversable(char c) {
+  public static boolean charTraversable(char c) {
     return Letters.isLetter(c) || Characters.isCharacter(c);
   }
 }

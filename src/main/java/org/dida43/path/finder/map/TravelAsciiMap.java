@@ -4,6 +4,7 @@ import org.dida43.path.finder.enums.Letters;
 import org.dida43.path.finder.enums.Path;
 import org.dida43.path.finder.exceptions.CheckMapException;
 import org.dida43.path.finder.exceptions.PathException;
+import org.dida43.path.finder.exceptions.path.BrokenPathException;
 import org.dida43.path.finder.pojos.Coordinates;
 import org.dida43.path.finder.pojos.Solution;
 
@@ -31,6 +32,9 @@ public class TravelAsciiMap {
     while (!travelCoordinates.equals(endTravelCoordinates)) {
       travelCoordinates = travelByPath(travelCoordinates, travelPath);
       char currentCharacter = asciiMap.getCharForCoordinates(travelCoordinates);
+
+      if (!Path.charTraversable(currentCharacter))
+        throw new BrokenPathException(travelCoordinates);
 
       pathAsCharacters.append(currentCharacter);
       if (Letters.isLetter(currentCharacter) && !asciiMap.areCoordinatesVisited(travelCoordinates))
