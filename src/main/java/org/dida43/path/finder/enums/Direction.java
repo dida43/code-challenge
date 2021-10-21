@@ -1,5 +1,9 @@
 package org.dida43.path.finder.enums;
 
+import org.dida43.path.finder.exceptions.direction.FakeTurnDirectionException;
+import org.dida43.path.finder.exceptions.direction.MultipleStartingDirectionException;
+import org.dida43.path.finder.exceptions.direction.NoStartingDirectionException;
+import org.dida43.path.finder.exceptions.direction.TForkDirectionException;
 import org.dida43.path.finder.map.AsciiMap;
 import org.dida43.path.finder.pojos.Coordinates;
 
@@ -7,7 +11,7 @@ public enum Direction {
   UP, DOWN, LEFT, RIGHT;
 
   public static Direction findStartingDirection(AsciiMap asciiMap, Coordinates coordinates)
-    throws Exception
+    throws NoStartingDirectionException, MultipleStartingDirectionException
   {
     Direction startingDirection = null;
     int noOfTraversableChars = 0;
@@ -28,14 +32,17 @@ public enum Direction {
       startingDirection = Direction.RIGHT;
     }
 
-    if (noOfTraversableChars != 1)
-      throw new Exception("Multiple or no starting paths");
+    if (noOfTraversableChars < 1)
+      throw new NoStartingDirectionException(coordinates);
+    if (noOfTraversableChars > 1)
+      throw new MultipleStartingDirectionException(coordinates);
 
     return startingDirection;
   }
 
   public static Direction findDirection(
-    AsciiMap asciiMap, Coordinates position, Direction currentDirection) throws Exception
+    AsciiMap asciiMap, Coordinates position, Direction currentDirection)
+    throws TForkDirectionException, FakeTurnDirectionException
   {
     char inspected = asciiMap.getCharForCoordinates(position);
     if (inspected == Characters.TURN.value())
@@ -46,13 +53,14 @@ public enum Direction {
   }
 
   private static Direction directionForTurn(
-    AsciiMap asciiMap, Coordinates coordinates, Direction currentDirection) throws Exception
+    AsciiMap asciiMap, Coordinates coordinates, Direction currentDirection)
+    throws TForkDirectionException, FakeTurnDirectionException
   {
     if (currentDirection == Direction.UP || currentDirection == Direction.DOWN) {
       char leftChar = asciiMap.getCharForCoordinates(coordinates.left());
       char rightChar = asciiMap.getCharForCoordinates(coordinates.right());
       if (charTraversable(leftChar) && charTraversable(rightChar))
-        throw new Exception("T intersection error");
+        throw new TForkDirectionException(coordinates);
       if (charTraversable(leftChar))
         return Direction.LEFT;
       if (charTraversable(rightChar))
@@ -62,17 +70,18 @@ public enum Direction {
       char upChar = asciiMap.getCharForCoordinates(coordinates.up());
       char downChar = asciiMap.getCharForCoordinates(coordinates.down());
       if (charTraversable(upChar) && charTraversable(downChar))
-        throw new Exception("T intersection error");
+        throw new TForkDirectionException(coordinates);
       if (charTraversable(upChar))
         return Direction.UP;
       if (charTraversable(downChar))
         return Direction.DOWN;
     }
-    throw new Exception("Fake turn");
+    throw new FakeTurnDirectionException(coordinates);
   }
 
   private static Direction directionForLetter(
-    AsciiMap asciiMap, Coordinates coordinates, Direction currentDirection) throws Exception
+    AsciiMap asciiMap, Coordinates coordinates, Direction currentDirection)
+    throws TForkDirectionException, FakeTurnDirectionException
   {
     //todo:write test for letter on t intersection
     char upChar = asciiMap.getCharForCoordinates(coordinates.up());

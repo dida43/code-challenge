@@ -10,10 +10,10 @@ public class Solution {
   }
 
   public String pathAsCharacters() {
-    return pathAsCharacters.toString();
+    return pathAsCharacters;
   }
 
   public String letters() {
-    return letters.toString();
+    return letters;
   }
 }
