@@ -1,6 +1,8 @@
 package org.dida43.path.finder.map;
 
 import org.dida43.path.finder.enums.Characters;
+import org.dida43.path.finder.exceptions.map.AreCoordinatesVisitedException;
+import org.dida43.path.finder.exceptions.map.VisitCoordinatesException;
 import org.dida43.path.finder.pojos.Coordinates;
 
 public class AsciiMap {
@@ -20,19 +22,19 @@ public class AsciiMap {
     }
   }
 
-  public void visitCoordinates(Coordinates coordinates) throws Exception {
+  public void visitCoordinates(Coordinates coordinates) throws VisitCoordinatesException {
     try {
       mapOfCoordinatesVisited[coordinates.row()][coordinates.column()] = true;
     } catch (ArrayIndexOutOfBoundsException ex) {
-      throw new Exception("Could not visit coordinates (out of bounds)");
+      throw new VisitCoordinatesException(coordinates);
     }
   }
 
-  public boolean areCoordinatesVisited(Coordinates position) throws Exception {
+  public boolean areCoordinatesVisited(Coordinates coordinates) throws Exception {
     try {
-      return mapOfCoordinatesVisited[position.row()][position.column()];
+      return mapOfCoordinatesVisited[coordinates.row()][coordinates.column()];
     } catch (ArrayIndexOutOfBoundsException ex) {
-      throw new Exception("Could not get visited for coordinates (out of bounds)");
+      throw new AreCoordinatesVisitedException(coordinates);
     }
   }
 

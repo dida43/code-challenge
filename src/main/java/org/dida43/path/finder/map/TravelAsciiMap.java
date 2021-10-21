@@ -1,6 +1,6 @@
 package org.dida43.path.finder.map;
 
-import org.dida43.path.finder.enums.Direction;
+import org.dida43.path.finder.enums.Path;
 import org.dida43.path.finder.enums.Letters;
 import org.dida43.path.finder.pojos.Coordinates;
 import org.dida43.path.finder.pojos.Solution;
@@ -23,10 +23,10 @@ public class TravelAsciiMap {
     pathAsCharacters.append(asciiMap.getCharForCoordinates(travelCoordinates));
 
     asciiMap.visitCoordinates(travelCoordinates);
-    Direction travelDirection = Direction.findStartingDirection(asciiMap, travelCoordinates);
+    Path travelPath = Path.findStartingPath(asciiMap, travelCoordinates);
 
     while (!travelCoordinates.equals(endTravelCoordinates)) {
-      travelCoordinates = travelByDirection(travelCoordinates, travelDirection);
+      travelCoordinates = travelByPath(travelCoordinates, travelPath);
       char currentCharacter = asciiMap.getCharForCoordinates(travelCoordinates);
 
       pathAsCharacters.append(currentCharacter);
@@ -34,15 +34,15 @@ public class TravelAsciiMap {
         letters.append(currentCharacter);
 
       asciiMap.visitCoordinates(travelCoordinates);
-      travelDirection = Direction.findDirection(asciiMap, travelCoordinates, travelDirection);
+      travelPath = Path.findPath(asciiMap, travelCoordinates, travelPath);
     }
     return new Solution(pathAsCharacters.toString(), letters.toString());
   }
 
-  private Coordinates travelByDirection(Coordinates coordinates, Direction currentDirection)
+  private Coordinates travelByPath(Coordinates coordinates, Path currentPath)
     throws Exception
   {
-    switch (currentDirection) {
+    switch (currentPath) {
       case UP:
         return coordinates.up();
       case DOWN:
@@ -52,6 +52,6 @@ public class TravelAsciiMap {
       case RIGHT:
         return coordinates.right();
     }
-    throw new Exception("No direction found!");
+    throw new Exception("No path found!");
   }
 }
