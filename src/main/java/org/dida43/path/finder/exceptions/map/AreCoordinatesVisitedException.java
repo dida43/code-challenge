@@ -2,7 +2,7 @@ package org.dida43.path.finder.exceptions.map;
 
 import org.dida43.path.finder.pojos.Coordinates;
 
-public class AreCoordinatesVisitedException extends Exception {
+public class AreCoordinatesVisitedException extends CheckMapException {
   public AreCoordinatesVisitedException(Coordinates coordinates) {
     super("Cannot check if coordinates: "+coordinates.toString()+
           " are visited because they are out of map.");

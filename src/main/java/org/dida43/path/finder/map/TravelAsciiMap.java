@@ -1,12 +1,9 @@
 package org.dida43.path.finder.map;
 
-import org.dida43.path.finder.enums.Path;
 import org.dida43.path.finder.enums.Letters;
-import org.dida43.path.finder.exceptions.map.*;
-import org.dida43.path.finder.exceptions.path.FakeTurnPathException;
-import org.dida43.path.finder.exceptions.path.MultipleStartingPathException;
-import org.dida43.path.finder.exceptions.path.NoStartingPathException;
-import org.dida43.path.finder.exceptions.path.TForkPathException;
+import org.dida43.path.finder.enums.Path;
+import org.dida43.path.finder.exceptions.map.CheckMapException;
+import org.dida43.path.finder.exceptions.path.PathException;
 import org.dida43.path.finder.pojos.Coordinates;
 import org.dida43.path.finder.pojos.Solution;
 
@@ -18,10 +15,7 @@ public class TravelAsciiMap {
     this.asciiMap = asciiMap;
   }
 
-  public Solution findSolution()
-    throws NoStartException, MultipleStartsException, MultipleEndsException, NoEndException,
-           VisitCoordinatesException, MultipleStartingPathException, NoStartingPathException,
-           AreCoordinatesVisitedException, FakeTurnPathException, TForkPathException
+  public Solution findSolution() throws CheckMapException, PathException
   {
     StringBuilder pathAsCharacters = new StringBuilder();
     StringBuilder letters = new StringBuilder();
