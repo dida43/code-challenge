@@ -16,7 +16,6 @@ import org.dida43.path.finder.map.AsciiMap;
 import org.dida43.path.finder.map.TravelAsciiMap;
 import org.dida43.path.finder.pojos.Solution;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -106,7 +105,7 @@ public class TravelAsciiMapTest {
     });
   }
 
-  @Disabled @Test public void TForks() throws Exception {
+  @Test public void TForks() throws Exception {
     String mapAsString = Main.readFile(getAbsolutePath("10TForks"));
 
     Assertions.assertThrows(TForkPathException.class, () -> {
@@ -114,7 +113,7 @@ public class TravelAsciiMapTest {
     });
   }
 
-  @Disabled @Test public void BrokenPath() throws Exception {
+  @Test public void BrokenPath() throws Exception {
     String mapAsString = Main.readFile(getAbsolutePath("11BrokenPath"));
 
     Assertions.assertThrows(BrokenPathException.class, () -> {
