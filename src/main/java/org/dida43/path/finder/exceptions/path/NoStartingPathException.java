@@ -1,5 +1,6 @@
 package org.dida43.path.finder.exceptions.path;
 
+import org.dida43.path.finder.exceptions.PathException;
 import org.dida43.path.finder.pojos.Coordinates;
 
 public class NoStartingPathException extends PathException {

@@ -2,8 +2,8 @@ package org.dida43.path.finder.map;
 
 import org.dida43.path.finder.enums.Letters;
 import org.dida43.path.finder.enums.Path;
-import org.dida43.path.finder.exceptions.map.CheckMapException;
-import org.dida43.path.finder.exceptions.path.PathException;
+import org.dida43.path.finder.exceptions.CheckMapException;
+import org.dida43.path.finder.exceptions.PathException;
 import org.dida43.path.finder.pojos.Coordinates;
 import org.dida43.path.finder.pojos.Solution;
 

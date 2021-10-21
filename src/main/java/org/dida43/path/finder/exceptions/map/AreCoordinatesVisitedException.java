@@ -1,5 +1,6 @@
 package org.dida43.path.finder.exceptions.map;
 
+import org.dida43.path.finder.exceptions.CheckMapException;
 import org.dida43.path.finder.pojos.Coordinates;
 
 public class AreCoordinatesVisitedException extends CheckMapException {

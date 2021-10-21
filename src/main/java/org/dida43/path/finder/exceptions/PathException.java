@@ -1,4 +1,4 @@
-package org.dida43.path.finder.exceptions.path;
+package org.dida43.path.finder.exceptions;
 
 import org.dida43.path.finder.exceptions.AsciiMapException;
 
