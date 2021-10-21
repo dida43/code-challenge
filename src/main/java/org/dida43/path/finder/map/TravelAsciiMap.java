@@ -2,6 +2,11 @@ package org.dida43.path.finder.map;
 
 import org.dida43.path.finder.enums.Path;
 import org.dida43.path.finder.enums.Letters;
+import org.dida43.path.finder.exceptions.map.*;
+import org.dida43.path.finder.exceptions.path.FakeTurnPathException;
+import org.dida43.path.finder.exceptions.path.MultipleStartingPathException;
+import org.dida43.path.finder.exceptions.path.NoStartingPathException;
+import org.dida43.path.finder.exceptions.path.TForkPathException;
 import org.dida43.path.finder.pojos.Coordinates;
 import org.dida43.path.finder.pojos.Solution;
 
@@ -13,7 +18,11 @@ public class TravelAsciiMap {
     this.asciiMap = asciiMap;
   }
 
-  public Solution findSolution() throws Exception {
+  public Solution findSolution()
+    throws NoStartException, MultipleStartsException, MultipleEndsException, NoEndException,
+           VisitCoordinatesException, MultipleStartingPathException, NoStartingPathException,
+           AreCoordinatesVisitedException, FakeTurnPathException, TForkPathException
+  {
     StringBuilder pathAsCharacters = new StringBuilder();
     StringBuilder letters = new StringBuilder();
 
@@ -40,8 +49,8 @@ public class TravelAsciiMap {
   }
 
   private Coordinates travelByPath(Coordinates coordinates, Path currentPath)
-    throws Exception
   {
+    //todo check this exception
     switch (currentPath) {
       case UP:
         return coordinates.up();
@@ -52,6 +61,6 @@ public class TravelAsciiMap {
       case RIGHT:
         return coordinates.right();
     }
-    throw new Exception("No path found!");
+    return null;
   }
 }
