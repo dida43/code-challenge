@@ -14,14 +14,14 @@ public class Main {
   public static void main(String[] args) {
 
     if (args.length != 1) {
-      System.out.println("You need to specify file path!");
+      System.out.println("Error: You need to specify file path!");
       System.exit(1);
     }
     String mapAsString = null;
     try {
       mapAsString = readFile(args[0]);
     } catch (IOException e) {
-      System.out.println("Cannot read file!");
+      System.out.println("Error: Cannot read file!");
       System.exit(1);
     }
 
@@ -30,7 +30,7 @@ public class Main {
       AsciiMap asciiMap = AsciiMap.ofString(mapAsString);
       solution = AsciiMapWalker.followPathToSolution(asciiMap);
     } catch (AsciiMapException e) {
-      System.out.println("Error");
+      System.out.println("Error: "+e.getMessage());
       System.exit(1);
     }
 
