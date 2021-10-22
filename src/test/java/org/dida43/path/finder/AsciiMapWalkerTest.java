@@ -153,4 +153,12 @@ public class AsciiMapWalkerTest {
       AsciiMapWalker.followPathToSolution(AsciiMap.ofString(mapAsString));
     });
   }
+
+  @Test public void emptyMap() throws Exception {
+    String mapAsString = Main.readFile(getAbsolutePath("15EmptyMap"));
+
+    Assertions.assertThrows(AsciiMapException.class, () -> {
+      AsciiMapWalker.followPathToSolution(AsciiMap.ofString(mapAsString));
+    });
+  }
 }
