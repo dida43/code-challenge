@@ -34,8 +34,8 @@ public class Main {
       System.exit(1);
     }
 
-    System.out.println("LetterCharacters: "+path.pathAsLetters());
-    System.out.println("Path as characters: "+path.pathAsCharacters());
+    System.out.println("Letters "+path.pathAsLetters());
+    System.out.println("Path as characters "+path.pathAsCharacters());
     System.exit(0);
   }
 
