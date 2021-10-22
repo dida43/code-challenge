@@ -4,6 +4,7 @@ import org.dida43.path.finder.enums.Letters;
 import org.dida43.path.finder.enums.PathDirection;
 import org.dida43.path.finder.exceptions.CheckMapException;
 import org.dida43.path.finder.exceptions.PathDirectionException;
+import org.dida43.path.finder.exceptions.map.NextPositionOnPathException;
 import org.dida43.path.finder.exceptions.path.BrokenPathDirectionException;
 import org.dida43.path.finder.pojos.Position;
 import org.dida43.path.finder.pojos.Solution;
@@ -16,7 +17,7 @@ public class TravelAsciiMap {
     this.asciiMap = asciiMap;
   }
 
-  public Solution followPath() throws CheckMapException, PathDirectionException
+  public Solution followPathToSolution() throws CheckMapException, PathDirectionException
   {
     StringBuilder pathAsCharacters = new StringBuilder();
     StringBuilder letters = new StringBuilder();
@@ -30,7 +31,7 @@ public class TravelAsciiMap {
     PathDirection pathDirection = PathDirection.getStartingPathDirection(asciiMap, positionOnPath);
 
     while (!positionOnPath.equals(endPosition)) {
-      positionOnPath = oneStepThroughPath(positionOnPath, pathDirection);
+      positionOnPath = nextPositionOnPath(positionOnPath, pathDirection);
       char currentCharacter = asciiMap.getCharForPosition(positionOnPath);
 
       if (PathDirection.isPathBroken(currentCharacter))
@@ -46,10 +47,10 @@ public class TravelAsciiMap {
     return new Solution(pathAsCharacters.toString(), letters.toString());
   }
 
-  private Position oneStepThroughPath(Position position, PathDirection currentPathDirection)
+  private Position nextPositionOnPath(Position position, PathDirection pathDirection)
+    throws NextPositionOnPathException
   {
-    //todo check this exception
-    switch (currentPathDirection) {
+    switch (pathDirection) {
       case UP:
         return position.up();
       case DOWN:
@@ -59,6 +60,6 @@ public class TravelAsciiMap {
       case RIGHT:
         return position.right();
     }
-    return null;
+    throw new NextPositionOnPathException(position, pathDirection);
   }
 }

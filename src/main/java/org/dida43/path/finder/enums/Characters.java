@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum Characters {
-  STARTING('@'), TURN('+'), HORIZONTAL('-'), VERTICAL('|'), END('x');
+  START('@'), TURN('+'), HORIZONTAL('-'), VERTICAL('|'), END('x');
 
   public final char value;
 

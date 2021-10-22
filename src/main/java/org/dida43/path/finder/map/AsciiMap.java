@@ -41,7 +41,7 @@ public class AsciiMap {
     Position startingPosition = null;
     for (int i = 0; i < map.length; i++) {
       for (int j = 0; j < map[i].length; j++) {
-        if (map[i][j] == Characters.STARTING.value) {
+        if (map[i][j] == Characters.START.value) {
           if (startingPosition != null)
             throw new MultipleStartsException();
           startingPosition = new Position(i, j);
