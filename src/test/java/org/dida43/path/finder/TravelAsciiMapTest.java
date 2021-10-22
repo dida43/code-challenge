@@ -27,7 +27,7 @@ public class TravelAsciiMapTest {
     return file.getAbsolutePath();
   }
 
-  @Test public void ABasicExample() throws Exception {
+  @Test public void aBasicExample() throws Exception {
     String mapAsString = Main.readFile(getAbsolutePath("01ABasicExample"));
 
     Solution solution = new TravelAsciiMap(AsciiMap.ofString(mapAsString)).findSolution();
@@ -36,7 +36,7 @@ public class TravelAsciiMapTest {
     assertEquals("@---A---+|C|+---+|+-B-x", solution.pathAsCharacters());
   }
 
-  @Test public void GoStraightThroughIntersections() throws Exception {
+  @Test public void goStraightThroughIntersections() throws Exception {
     String mapAsString = Main.readFile(getAbsolutePath("02GoStraightThroughIntersections"));
 
     Solution solution = new TravelAsciiMap(AsciiMap.ofString(mapAsString)).findSolution();
@@ -45,7 +45,7 @@ public class TravelAsciiMapTest {
     assertEquals("@|A+---B--+|+--C-+|-||+---D--+|x", solution.pathAsCharacters());
   }
 
-  @Test public void LettersMayBeFoundOnTurns() throws Exception {
+  @Test public void lettersMayBeFoundOnTurns() throws Exception {
     String mapAsString = Main.readFile(getAbsolutePath("03LettersMayBeFoundOnTurns"));
 
     Solution solution = new TravelAsciiMap(AsciiMap.ofString(mapAsString)).findSolution();
@@ -54,7 +54,7 @@ public class TravelAsciiMapTest {
     assertEquals("@---A---+|||C---+|+-B-x", solution.pathAsCharacters());
   }
 
-  @Test public void DoNotCollectALetterFromTheSameLocationTwice() throws Exception {
+  @Test public void doNotCollectALetterFromTheSameLocationTwice() throws Exception {
     String mapAsString =
       Main.readFile(getAbsolutePath("04DoNotCollectALetterFromTheSameLocationTwice"));
 
@@ -64,7 +64,7 @@ public class TravelAsciiMapTest {
     assertEquals("@-G-O-+|+-+|O||+-O-N-+|I|+-+|+-I-+|ES|x", solution.pathAsCharacters());
   }
 
-  @Test public void KeepDirectionEvenInACompactSpace() throws Exception {
+  @Test public void keepDirectionEvenInACompactSpace() throws Exception {
     String mapAsString = Main.readFile(getAbsolutePath("05KeepDirectionEvenInACompactSpace"));
 
     Solution solution = new TravelAsciiMap(AsciiMap.ofString(mapAsString)).findSolution();
@@ -73,7 +73,7 @@ public class TravelAsciiMapTest {
     assertEquals("@B+++B|+-L-+A+++A-+Hx", solution.pathAsCharacters());
   }
 
-  @Test public void NoStart() throws Exception {
+  @Test public void noStart() throws Exception {
     String mapAsString = Main.readFile(getAbsolutePath("06NoStart"));
 
     Assertions.assertThrows(NoStartException.class, () -> {
@@ -81,7 +81,7 @@ public class TravelAsciiMapTest {
     });
   }
 
-  @Test public void NoEnd() throws Exception {
+  @Test public void noEnd() throws Exception {
     String mapAsString = Main.readFile(getAbsolutePath("07NoEnd"));
 
     Assertions.assertThrows(NoEndException.class, () -> {
@@ -89,7 +89,7 @@ public class TravelAsciiMapTest {
     });
   }
 
-  @Test public void MultipleStarts() throws Exception {
+  @Test public void multipleStarts() throws Exception {
     String mapAsString = Main.readFile(getAbsolutePath("08MultipleStarts"));
 
     Assertions.assertThrows(MultipleStartsException.class, () -> {
@@ -97,7 +97,7 @@ public class TravelAsciiMapTest {
     });
   }
 
-  @Test public void MultipleEnds() throws Exception {
+  @Test public void multipleEnds() throws Exception {
     String mapAsString = Main.readFile(getAbsolutePath("09MultipleEnds"));
 
     Assertions.assertThrows(MultipleEndsException.class, () -> {
@@ -105,15 +105,23 @@ public class TravelAsciiMapTest {
     });
   }
 
-  @Test public void TForks() throws Exception {
-    String mapAsString = Main.readFile(getAbsolutePath("10TForks"));
+  @Test public void tForksAMultipleEnds() throws Exception {
+    String mapAsString = Main.readFile(getAbsolutePath("10aTForksMultipleEnds"));
+
+    Assertions.assertThrows(MultipleEndsException.class, () -> {
+      new TravelAsciiMap(AsciiMap.ofString(mapAsString)).findSolution();
+    });
+  }
+
+  @Test public void tForksB() throws Exception {
+    String mapAsString = Main.readFile(getAbsolutePath("10bTForks"));
 
     Assertions.assertThrows(TForkPathException.class, () -> {
       new TravelAsciiMap(AsciiMap.ofString(mapAsString)).findSolution();
     });
   }
 
-  @Test public void BrokenPath() throws Exception {
+  @Test public void brokenPath() throws Exception {
     String mapAsString = Main.readFile(getAbsolutePath("11BrokenPath"));
 
     Assertions.assertThrows(BrokenPathException.class, () -> {
@@ -121,7 +129,7 @@ public class TravelAsciiMapTest {
     });
   }
 
-  @Test public void MultipleStartingPaths() throws Exception {
+  @Test public void multipleStartingPaths() throws Exception {
     String mapAsString = Main.readFile(getAbsolutePath("12MultipleStartingPaths"));
 
     Assertions.assertThrows(MultipleStartingPathException.class, () -> {
@@ -129,7 +137,7 @@ public class TravelAsciiMapTest {
     });
   }
 
-  @Test public void FakeTurn() throws Exception {
+  @Test public void fakeTurn() throws Exception {
     String mapAsString = Main.readFile(getAbsolutePath("13FakeTurn"));
 
     Assertions.assertThrows(FakeTurnPathException.class, () -> {
