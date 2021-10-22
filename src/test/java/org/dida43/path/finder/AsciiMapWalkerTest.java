@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
+import org.dida43.path.finder.exceptions.AsciiMapException;
 import org.dida43.path.finder.exceptions.map.MultipleEndsException;
 import org.dida43.path.finder.exceptions.map.MultipleStartsException;
 import org.dida43.path.finder.exceptions.map.NoEndException;
@@ -141,6 +142,14 @@ public class AsciiMapWalkerTest {
     String mapAsString = Main.readFile(getAbsolutePath("13FakeTurn"));
 
     Assertions.assertThrows(FakeTurnPathDirectionException.class, () -> {
+      AsciiMapWalker.followPathToSolution(AsciiMap.ofString(mapAsString));
+    });
+  }
+
+  @Test public void nonAsciiMap() throws Exception {
+    String mapAsString = Main.readFile(getAbsolutePath("14NonAsciiMap"));
+
+    Assertions.assertThrows(AsciiMapException.class, () -> {
       AsciiMapWalker.followPathToSolution(AsciiMap.ofString(mapAsString));
     });
   }

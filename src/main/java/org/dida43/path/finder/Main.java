@@ -25,9 +25,9 @@ public class Main {
       System.exit(1);
     }
 
-    AsciiMap asciiMap = AsciiMap.ofString(mapAsString);
     Solution solution = null;
     try {
+      AsciiMap asciiMap = AsciiMap.ofString(mapAsString);
       solution = AsciiMapWalker.followPathToSolution(asciiMap);
     } catch (AsciiMapException e) {
       System.out.println("Error");

@@ -1,6 +1,9 @@
 package org.dida43.path.finder.map;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import org.dida43.path.finder.enums.Characters;
+import org.dida43.path.finder.exceptions.AsciiMapException;
 import org.dida43.path.finder.exceptions.map.*;
 import org.dida43.path.finder.pojos.Position;
 
@@ -69,16 +72,23 @@ public class AsciiMap {
     return endPosition;
   }
 
-  public static AsciiMap ofString(String inputFile) {
-    //todo should we have exception here?
-    String[] rowLines = inputFile.split(System.lineSeparator());
-    int rows = rowLines.length;
-    char[][] map = new char[rows][];
-    boolean[][] mapOfPositionsVisited = new boolean[rows][];
-    for (int i = 0; i < rows; i++) {
-      map[i] = rowLines[i].toCharArray();
+  public static AsciiMap ofString(String string) throws AsciiMapException {
+    if (string.isEmpty())
+      throw new AsciiMapException("Cannot make ascii map for empty string");
+    if (!isStringAscii(string))
+      throw new AsciiMapException("Cannot make ascii map for non ascii characters");
+
+    String[] rows = string.split(System.lineSeparator());
+    char[][] map = new char[rows.length][];
+    boolean[][] mapOfPositionsVisited = new boolean[rows.length][];
+    for (int i = 0; i < rows.length; i++) {
+      map[i] = rows[i].toCharArray();
       mapOfPositionsVisited[i] = new boolean[map[i].length];
     }
     return new AsciiMap(map, mapOfPositionsVisited);
+  }
+
+  private static boolean isStringAscii(String s) {
+    return Charset.forName(StandardCharsets.US_ASCII.name()).newEncoder().canEncode(s);
   }
 }
