@@ -15,7 +15,7 @@ import org.dida43.path.finder.exceptions.path.MultipleStartingPathDirectionExcep
 import org.dida43.path.finder.exceptions.path.TForkPathDirectionException;
 import org.dida43.path.finder.map.AsciiMap;
 import org.dida43.path.finder.map.AsciiMapWalker;
-import org.dida43.path.finder.pojos.Solution;
+import org.dida43.path.finder.pojos.Path;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -31,54 +31,54 @@ public class AsciiMapWalkerTest {
   @Test public void aBasicExample() throws Exception {
     String mapAsString = Main.readFile(getAbsolutePath("01ABasicExample"));
 
-    Solution solution = AsciiMapWalker.followPathToSolution(AsciiMap.ofString(mapAsString));
+    Path path = AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
 
-    assertEquals("ACB", solution.letters());
-    assertEquals("@---A---+|C|+---+|+-B-x", solution.pathAsCharacters());
+    assertEquals("ACB", path.pathAsLetters());
+    assertEquals("@---A---+|C|+---+|+-B-x", path.pathAsCharacters());
   }
 
   @Test public void goStraightThroughIntersections() throws Exception {
     String mapAsString = Main.readFile(getAbsolutePath("02GoStraightThroughIntersections"));
 
-    Solution solution = AsciiMapWalker.followPathToSolution(AsciiMap.ofString(mapAsString));
+    Path path = AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
 
-    assertEquals("ABCD", solution.letters());
-    assertEquals("@|A+---B--+|+--C-+|-||+---D--+|x", solution.pathAsCharacters());
+    assertEquals("ABCD", path.pathAsLetters());
+    assertEquals("@|A+---B--+|+--C-+|-||+---D--+|x", path.pathAsCharacters());
   }
 
   @Test public void lettersMayBeFoundOnTurns() throws Exception {
     String mapAsString = Main.readFile(getAbsolutePath("03LettersMayBeFoundOnTurns"));
 
-    Solution solution = AsciiMapWalker.followPathToSolution(AsciiMap.ofString(mapAsString));
+    Path path = AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
 
-    assertEquals("ACB", solution.letters());
-    assertEquals("@---A---+|||C---+|+-B-x", solution.pathAsCharacters());
+    assertEquals("ACB", path.pathAsLetters());
+    assertEquals("@---A---+|||C---+|+-B-x", path.pathAsCharacters());
   }
 
   @Test public void doNotCollectALetterFromTheSameLocationTwice() throws Exception {
     String mapAsString =
       Main.readFile(getAbsolutePath("04DoNotCollectALetterFromTheSameLocationTwice"));
 
-    Solution solution = AsciiMapWalker.followPathToSolution(AsciiMap.ofString(mapAsString));
+    Path path = AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
 
-    assertEquals("GOONIES", solution.letters());
-    assertEquals("@-G-O-+|+-+|O||+-O-N-+|I|+-+|+-I-+|ES|x", solution.pathAsCharacters());
+    assertEquals("GOONIES", path.pathAsLetters());
+    assertEquals("@-G-O-+|+-+|O||+-O-N-+|I|+-+|+-I-+|ES|x", path.pathAsCharacters());
   }
 
   @Test public void keepDirectionEvenInACompactSpace() throws Exception {
     String mapAsString = Main.readFile(getAbsolutePath("05KeepDirectionEvenInACompactSpace"));
 
-    Solution solution = AsciiMapWalker.followPathToSolution(AsciiMap.ofString(mapAsString));
+    Path path = AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
 
-    assertEquals("BLAH", solution.letters());
-    assertEquals("@B+++B|+-L-+A+++A-+Hx", solution.pathAsCharacters());
+    assertEquals("BLAH", path.pathAsLetters());
+    assertEquals("@B+++B|+-L-+A+++A-+Hx", path.pathAsCharacters());
   }
 
   @Test public void noStart() throws Exception {
     String mapAsString = Main.readFile(getAbsolutePath("06NoStart"));
 
     Assertions.assertThrows(NoStartException.class, () -> {
-      AsciiMapWalker.followPathToSolution(AsciiMap.ofString(mapAsString));
+      AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
     });
   }
 
@@ -86,7 +86,7 @@ public class AsciiMapWalkerTest {
     String mapAsString = Main.readFile(getAbsolutePath("07NoEnd"));
 
     Assertions.assertThrows(NoEndException.class, () -> {
-      AsciiMapWalker.followPathToSolution(AsciiMap.ofString(mapAsString));
+      AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
     });
   }
 
@@ -94,7 +94,7 @@ public class AsciiMapWalkerTest {
     String mapAsString = Main.readFile(getAbsolutePath("08MultipleStarts"));
 
     Assertions.assertThrows(MultipleStartsException.class, () -> {
-      AsciiMapWalker.followPathToSolution(AsciiMap.ofString(mapAsString));
+      AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
     });
   }
 
@@ -102,7 +102,7 @@ public class AsciiMapWalkerTest {
     String mapAsString = Main.readFile(getAbsolutePath("09MultipleEnds"));
 
     Assertions.assertThrows(MultipleEndsException.class, () -> {
-      AsciiMapWalker.followPathToSolution(AsciiMap.ofString(mapAsString));
+      AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
     });
   }
 
@@ -110,7 +110,7 @@ public class AsciiMapWalkerTest {
     String mapAsString = Main.readFile(getAbsolutePath("10aTForksMultipleEnds"));
 
     Assertions.assertThrows(MultipleEndsException.class, () -> {
-      AsciiMapWalker.followPathToSolution(AsciiMap.ofString(mapAsString));
+      AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
     });
   }
 
@@ -118,7 +118,7 @@ public class AsciiMapWalkerTest {
     String mapAsString = Main.readFile(getAbsolutePath("10bTForks"));
 
     Assertions.assertThrows(TForkPathDirectionException.class, () -> {
-      AsciiMapWalker.followPathToSolution(AsciiMap.ofString(mapAsString));
+      AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
     });
   }
 
@@ -126,7 +126,7 @@ public class AsciiMapWalkerTest {
     String mapAsString = Main.readFile(getAbsolutePath("11BrokenPath"));
 
     Assertions.assertThrows(BrokenPathDirectionException.class, () -> {
-      AsciiMapWalker.followPathToSolution(AsciiMap.ofString(mapAsString));
+      AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
     });
   }
 
@@ -134,7 +134,7 @@ public class AsciiMapWalkerTest {
     String mapAsString = Main.readFile(getAbsolutePath("12MultipleStartingPaths"));
 
     Assertions.assertThrows(MultipleStartingPathDirectionException.class, () -> {
-      AsciiMapWalker.followPathToSolution(AsciiMap.ofString(mapAsString));
+      AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
     });
   }
 
@@ -142,7 +142,7 @@ public class AsciiMapWalkerTest {
     String mapAsString = Main.readFile(getAbsolutePath("13FakeTurn"));
 
     Assertions.assertThrows(FakeTurnPathDirectionException.class, () -> {
-      AsciiMapWalker.followPathToSolution(AsciiMap.ofString(mapAsString));
+      AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
     });
   }
 
@@ -150,7 +150,7 @@ public class AsciiMapWalkerTest {
     String mapAsString = Main.readFile(getAbsolutePath("14NonAsciiMap"));
 
     Assertions.assertThrows(AsciiMapException.class, () -> {
-      AsciiMapWalker.followPathToSolution(AsciiMap.ofString(mapAsString));
+      AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
     });
   }
 
@@ -158,7 +158,7 @@ public class AsciiMapWalkerTest {
     String mapAsString = Main.readFile(getAbsolutePath("15EmptyMap"));
 
     Assertions.assertThrows(AsciiMapException.class, () -> {
-      AsciiMapWalker.followPathToSolution(AsciiMap.ofString(mapAsString));
+      AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
     });
   }
 }

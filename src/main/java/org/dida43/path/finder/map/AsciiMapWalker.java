@@ -6,13 +6,12 @@ import org.dida43.path.finder.exceptions.CheckMapException;
 import org.dida43.path.finder.exceptions.PathDirectionException;
 import org.dida43.path.finder.exceptions.map.NextPositionOnPathException;
 import org.dida43.path.finder.exceptions.path.BrokenPathDirectionException;
+import org.dida43.path.finder.pojos.Path;
 import org.dida43.path.finder.pojos.Position;
-import org.dida43.path.finder.pojos.Solution;
 
 public class AsciiMapWalker {
 
-  public static Solution followPathToSolution(AsciiMap asciiMap)
-    throws CheckMapException, PathDirectionException
+  public static Path recordPath(AsciiMap asciiMap) throws CheckMapException, PathDirectionException
   {
     StringBuilder pathAsCharacters = new StringBuilder();
     StringBuilder letters = new StringBuilder();
@@ -40,7 +39,7 @@ public class AsciiMapWalker {
       asciiMap.visitPosition(positionOnPath);
       pathDirection = PathDirection.getPathDirection(asciiMap, positionOnPath, pathDirection);
     }
-    return new Solution(pathAsCharacters.toString(), letters.toString());
+    return new Path(pathAsCharacters.toString(), letters.toString());
   }
 
   private static Position nextPositionOnPath(Position position, PathDirection pathDirection)

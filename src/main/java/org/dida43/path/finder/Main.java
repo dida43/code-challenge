@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 import org.dida43.path.finder.exceptions.AsciiMapException;
 import org.dida43.path.finder.map.AsciiMap;
 import org.dida43.path.finder.map.AsciiMapWalker;
-import org.dida43.path.finder.pojos.Solution;
+import org.dida43.path.finder.pojos.Path;
 
 public class Main {
 
@@ -25,17 +25,17 @@ public class Main {
       System.exit(1);
     }
 
-    Solution solution = null;
+    Path path = null;
     try {
       AsciiMap asciiMap = AsciiMap.ofString(mapAsString);
-      solution = AsciiMapWalker.followPathToSolution(asciiMap);
+      path = AsciiMapWalker.recordPath(asciiMap);
     } catch (AsciiMapException e) {
       System.out.println("Error: "+e.getMessage());
       System.exit(1);
     }
 
-    System.out.println("LetterCharacters: "+solution.letters());
-    System.out.println("Path as characters: "+solution.pathAsCharacters());
+    System.out.println("LetterCharacters: "+path.pathAsLetters());
+    System.out.println("Path as characters: "+path.pathAsCharacters());
     System.exit(0);
   }
 
