@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AsciiMapWalkerTest {
+
   private String getAbsolutePath(String resourceFileName) throws URISyntaxException {
     URL res = getClass().getClassLoader().getResource(resourceFileName);
     File file = Paths.get(res.toURI()).toFile();

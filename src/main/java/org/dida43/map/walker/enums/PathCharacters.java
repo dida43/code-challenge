@@ -6,7 +6,7 @@ import java.util.Map;
 public enum PathCharacters {
   START('@'), TURN('+'), HORIZONTAL('-'), VERTICAL('|'), END('x');
 
-  public final char value;
+  private final char value;
 
   public static final String charset;
 
