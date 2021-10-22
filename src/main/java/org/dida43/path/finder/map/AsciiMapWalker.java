@@ -9,7 +9,7 @@ import org.dida43.path.finder.exceptions.path.BrokenPathDirectionException;
 import org.dida43.path.finder.pojos.Position;
 import org.dida43.path.finder.pojos.Solution;
 
-public class TravelAsciiMap {
+public class AsciiMapWalker {
 
   public static Solution followPathToSolution(AsciiMap asciiMap)
     throws CheckMapException, PathDirectionException

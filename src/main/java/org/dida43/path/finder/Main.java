@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import org.dida43.path.finder.exceptions.AsciiMapException;
 import org.dida43.path.finder.map.AsciiMap;
-import org.dida43.path.finder.map.TravelAsciiMap;
+import org.dida43.path.finder.map.AsciiMapWalker;
 import org.dida43.path.finder.pojos.Solution;
 
 public class Main {
@@ -28,7 +28,7 @@ public class Main {
     AsciiMap asciiMap = AsciiMap.ofString(mapAsString);
     Solution solution = null;
     try {
-      solution = TravelAsciiMap.followPathToSolution(asciiMap);
+      solution = AsciiMapWalker.followPathToSolution(asciiMap);
     } catch (AsciiMapException e) {
       System.out.println("Error");
       System.exit(1);
