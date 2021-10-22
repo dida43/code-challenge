@@ -8,10 +8,10 @@ import org.dida43.path.finder.exceptions.map.MultipleEndsException;
 import org.dida43.path.finder.exceptions.map.MultipleStartsException;
 import org.dida43.path.finder.exceptions.map.NoEndException;
 import org.dida43.path.finder.exceptions.map.NoStartException;
-import org.dida43.path.finder.exceptions.path.BrokenPathException;
-import org.dida43.path.finder.exceptions.path.FakeTurnPathException;
-import org.dida43.path.finder.exceptions.path.MultipleStartingPathException;
-import org.dida43.path.finder.exceptions.path.TForkPathException;
+import org.dida43.path.finder.exceptions.path.BrokenPathDirectionException;
+import org.dida43.path.finder.exceptions.path.FakeTurnPathDirectionException;
+import org.dida43.path.finder.exceptions.path.MultipleStartingPathDirectionException;
+import org.dida43.path.finder.exceptions.path.TForkPathDirectionException;
 import org.dida43.path.finder.map.AsciiMap;
 import org.dida43.path.finder.map.TravelAsciiMap;
 import org.dida43.path.finder.pojos.Solution;
@@ -116,7 +116,7 @@ public class TravelAsciiMapTest {
   @Test public void tForksB() throws Exception {
     String mapAsString = Main.readFile(getAbsolutePath("10bTForks"));
 
-    Assertions.assertThrows(TForkPathException.class, () -> {
+    Assertions.assertThrows(TForkPathDirectionException.class, () -> {
       new TravelAsciiMap(AsciiMap.ofString(mapAsString)).followPath();
     });
   }
@@ -124,7 +124,7 @@ public class TravelAsciiMapTest {
   @Test public void brokenPath() throws Exception {
     String mapAsString = Main.readFile(getAbsolutePath("11BrokenPath"));
 
-    Assertions.assertThrows(BrokenPathException.class, () -> {
+    Assertions.assertThrows(BrokenPathDirectionException.class, () -> {
       new TravelAsciiMap(AsciiMap.ofString(mapAsString)).followPath();
     });
   }
@@ -132,7 +132,7 @@ public class TravelAsciiMapTest {
   @Test public void multipleStartingPaths() throws Exception {
     String mapAsString = Main.readFile(getAbsolutePath("12MultipleStartingPaths"));
 
-    Assertions.assertThrows(MultipleStartingPathException.class, () -> {
+    Assertions.assertThrows(MultipleStartingPathDirectionException.class, () -> {
       new TravelAsciiMap(AsciiMap.ofString(mapAsString)).followPath();
     });
   }
@@ -140,7 +140,7 @@ public class TravelAsciiMapTest {
   @Test public void fakeTurn() throws Exception {
     String mapAsString = Main.readFile(getAbsolutePath("13FakeTurn"));
 
-    Assertions.assertThrows(FakeTurnPathException.class, () -> {
+    Assertions.assertThrows(FakeTurnPathDirectionException.class, () -> {
       new TravelAsciiMap(AsciiMap.ofString(mapAsString)).followPath();
     });
   }

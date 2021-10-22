@@ -1,10 +1,10 @@
 package org.dida43.path.finder.map;
 
 import org.dida43.path.finder.enums.Letters;
-import org.dida43.path.finder.enums.Path;
+import org.dida43.path.finder.enums.PathDirection;
 import org.dida43.path.finder.exceptions.CheckMapException;
-import org.dida43.path.finder.exceptions.PathException;
-import org.dida43.path.finder.exceptions.path.BrokenPathException;
+import org.dida43.path.finder.exceptions.PathDirectionException;
+import org.dida43.path.finder.exceptions.path.BrokenPathDirectionException;
 import org.dida43.path.finder.pojos.Position;
 import org.dida43.path.finder.pojos.Solution;
 
@@ -16,40 +16,40 @@ public class TravelAsciiMap {
     this.asciiMap = asciiMap;
   }
 
-  public Solution followPath() throws CheckMapException, PathException
+  public Solution followPath() throws CheckMapException, PathDirectionException
   {
     StringBuilder pathAsCharacters = new StringBuilder();
     StringBuilder letters = new StringBuilder();
 
-    Position travelPosition = asciiMap.startingPosition();
-    Position endTravelPosition = asciiMap.endPosition();
+    Position positionOnPath = asciiMap.startingPosition();
+    Position endPosition = asciiMap.endPosition();
 
-    pathAsCharacters.append(asciiMap.getCharForPosition(travelPosition));
+    pathAsCharacters.append(asciiMap.getCharForPosition(positionOnPath));
 
-    asciiMap.visitPosition(travelPosition);
-    Path travelPath = Path.findStartingPath(asciiMap, travelPosition);
+    asciiMap.visitPosition(positionOnPath);
+    PathDirection pathDirection = PathDirection.getStartingPathDirection(asciiMap, positionOnPath);
 
-    while (!travelPosition.equals(endTravelPosition)) {
-      travelPosition = travelByPath(travelPosition, travelPath);
-      char currentCharacter = asciiMap.getCharForPosition(travelPosition);
+    while (!positionOnPath.equals(endPosition)) {
+      positionOnPath = oneStepThroughPath(positionOnPath, pathDirection);
+      char currentCharacter = asciiMap.getCharForPosition(positionOnPath);
 
-      if (!Path.charTraversable(currentCharacter))
-        throw new BrokenPathException(travelPosition);
+      if (PathDirection.isPathBroken(currentCharacter))
+        throw new BrokenPathDirectionException(positionOnPath);
 
       pathAsCharacters.append(currentCharacter);
-      if (Letters.isLetter(currentCharacter) && !asciiMap.isPositionVisited(travelPosition))
+      if (Letters.isLetter(currentCharacter) && !asciiMap.isPositionVisited(positionOnPath))
         letters.append(currentCharacter);
 
-      asciiMap.visitPosition(travelPosition);
-      travelPath = Path.findPath(asciiMap, travelPosition, travelPath);
+      asciiMap.visitPosition(positionOnPath);
+      pathDirection = PathDirection.getPathDirection(asciiMap, positionOnPath, pathDirection);
     }
     return new Solution(pathAsCharacters.toString(), letters.toString());
   }
 
-  private Position travelByPath(Position position, Path currentPath)
+  private Position oneStepThroughPath(Position position, PathDirection currentPathDirection)
   {
     //todo check this exception
-    switch (currentPath) {
+    switch (currentPathDirection) {
       case UP:
         return position.up();
       case DOWN:
