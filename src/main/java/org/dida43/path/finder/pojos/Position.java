@@ -2,11 +2,11 @@ package org.dida43.path.finder.pojos;
 
 import java.util.Objects;
 
-public class Coordinates {
+public class Position {
   private final int row;
   private final int column;
 
-  public Coordinates(int row, int column) {
+  public Position(int row, int column) {
     this.row = row;
     this.column = column;
   }
@@ -19,28 +19,28 @@ public class Coordinates {
     return column;
   }
 
-  public Coordinates up() {
-    return new Coordinates(row-1, column);
+  public Position up() {
+    return new Position(row-1, column);
   }
 
-  public Coordinates down() {
-    return new Coordinates(row+1, column);
+  public Position down() {
+    return new Position(row+1, column);
   }
 
-  public Coordinates left() {
-    return new Coordinates(row, column-1);
+  public Position left() {
+    return new Position(row, column-1);
   }
 
-  public Coordinates right() {
-    return new Coordinates(row, column+1);
+  public Position right() {
+    return new Position(row, column+1);
   }
 
   @Override public boolean equals(Object o) {
     if (this == o)
       return true;
-    if (!(o instanceof Coordinates))
+    if (!(o instanceof Position))
       return false;
-    Coordinates that = (Coordinates)o;
+    Position that = (Position)o;
     return row == that.row && column == that.column;
   }
 

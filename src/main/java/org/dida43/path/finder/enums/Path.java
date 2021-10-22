@@ -5,46 +5,46 @@ import org.dida43.path.finder.exceptions.path.MultipleStartingPathException;
 import org.dida43.path.finder.exceptions.path.NoStartingPathException;
 import org.dida43.path.finder.exceptions.path.TForkPathException;
 import org.dida43.path.finder.map.AsciiMap;
-import org.dida43.path.finder.pojos.Coordinates;
+import org.dida43.path.finder.pojos.Position;
 
 public enum Path {
   UP, DOWN, LEFT, RIGHT;
 
-  public static Path findStartingPath(AsciiMap asciiMap, Coordinates coordinates)
+  public static Path findStartingPath(AsciiMap asciiMap, Position position)
     throws NoStartingPathException, MultipleStartingPathException
   {
     Path startingPath = null;
     int noOfTraversableChars = 0;
-    if (charTraversable(asciiMap.getCharForCoordinates(coordinates.up()))) {
+    if (charTraversable(asciiMap.getCharForPosition(position.up()))) {
       noOfTraversableChars++;
       startingPath = Path.UP;
     }
-    if (charTraversable(asciiMap.getCharForCoordinates(coordinates.down()))) {
+    if (charTraversable(asciiMap.getCharForPosition(position.down()))) {
       noOfTraversableChars++;
       startingPath = Path.DOWN;
     }
-    if (charTraversable(asciiMap.getCharForCoordinates(coordinates.left()))) {
+    if (charTraversable(asciiMap.getCharForPosition(position.left()))) {
       noOfTraversableChars++;
       startingPath = Path.LEFT;
     }
-    if (charTraversable(asciiMap.getCharForCoordinates(coordinates.right()))) {
+    if (charTraversable(asciiMap.getCharForPosition(position.right()))) {
       noOfTraversableChars++;
       startingPath = Path.RIGHT;
     }
 
     if (noOfTraversableChars < 1)
-      throw new NoStartingPathException(coordinates);
+      throw new NoStartingPathException(position);
     if (noOfTraversableChars > 1)
-      throw new MultipleStartingPathException(coordinates);
+      throw new MultipleStartingPathException(position);
 
     return startingPath;
   }
 
   public static Path findPath(
-    AsciiMap asciiMap, Coordinates position, Path currentPath)
+    AsciiMap asciiMap, Position position, Path currentPath)
     throws TForkPathException, FakeTurnPathException
   {
-    char inspected = asciiMap.getCharForCoordinates(position);
+    char inspected = asciiMap.getCharForPosition(position);
     if (inspected == Characters.TURN.value())
       return findPathFromTurn(asciiMap, position, currentPath);
     if (Letters.isLetter(inspected))
@@ -53,41 +53,41 @@ public enum Path {
   }
 
   private static Path findPathFromTurn(
-    AsciiMap asciiMap, Coordinates coordinates, Path currentPath)
+    AsciiMap asciiMap, Position position, Path currentPath)
     throws TForkPathException, FakeTurnPathException
   {
     if (currentPath == Path.UP || currentPath == Path.DOWN) {
-      char leftChar = asciiMap.getCharForCoordinates(coordinates.left());
-      char rightChar = asciiMap.getCharForCoordinates(coordinates.right());
+      char leftChar = asciiMap.getCharForPosition(position.left());
+      char rightChar = asciiMap.getCharForPosition(position.right());
       if (charTraversable(leftChar) && charTraversable(rightChar))
-        throw new TForkPathException(coordinates);
+        throw new TForkPathException(position);
       if (charTraversable(leftChar))
         return Path.LEFT;
       if (charTraversable(rightChar))
         return Path.RIGHT;
     }
     if (currentPath == Path.LEFT || currentPath == Path.RIGHT) {
-      char upChar = asciiMap.getCharForCoordinates(coordinates.up());
-      char downChar = asciiMap.getCharForCoordinates(coordinates.down());
+      char upChar = asciiMap.getCharForPosition(position.up());
+      char downChar = asciiMap.getCharForPosition(position.down());
       if (charTraversable(upChar) && charTraversable(downChar))
-        throw new TForkPathException(coordinates);
+        throw new TForkPathException(position);
       if (charTraversable(upChar))
         return Path.UP;
       if (charTraversable(downChar))
         return Path.DOWN;
     }
-    throw new FakeTurnPathException(coordinates);
+    throw new FakeTurnPathException(position);
   }
 
   private static Path findPathFromLetter(
-    AsciiMap asciiMap, Coordinates coordinates, Path currentPath)
+    AsciiMap asciiMap, Position position, Path currentPath)
     throws TForkPathException, FakeTurnPathException
   {
     //todo:write test for letter on t intersection
-    char upChar = asciiMap.getCharForCoordinates(coordinates.up());
-    char downChar = asciiMap.getCharForCoordinates(coordinates.down());
-    char leftChar = asciiMap.getCharForCoordinates(coordinates.left());
-    char rightChar = asciiMap.getCharForCoordinates(coordinates.right());
+    char upChar = asciiMap.getCharForPosition(position.up());
+    char downChar = asciiMap.getCharForPosition(position.down());
+    char leftChar = asciiMap.getCharForPosition(position.left());
+    char rightChar = asciiMap.getCharForPosition(position.right());
     if (currentPath == Path.UP && charTraversable(upChar))
       return currentPath;
     if (currentPath == Path.DOWN && charTraversable(downChar))
@@ -97,7 +97,7 @@ public enum Path {
     if (currentPath == Path.RIGHT && charTraversable(rightChar))
       return currentPath;
 
-    return findPathFromTurn(asciiMap, coordinates, currentPath);
+    return findPathFromTurn(asciiMap, position, currentPath);
   }
 
   public static boolean charTraversable(char c) {

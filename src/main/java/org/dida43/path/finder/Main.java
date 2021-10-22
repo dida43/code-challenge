@@ -40,7 +40,7 @@ public class Main {
     TravelAsciiMap travelAsciiMap = new TravelAsciiMap(asciiMap);
     Solution solution = null;
     try {
-      solution = travelAsciiMap.findSolution();
+      solution = travelAsciiMap.followPath();
     } catch (AsciiMapException e) {
       System.out.println("Error");
       logger.fine(e.getMessage());

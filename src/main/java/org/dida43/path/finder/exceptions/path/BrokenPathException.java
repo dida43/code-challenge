@@ -1,10 +1,10 @@
 package org.dida43.path.finder.exceptions.path;
 
 import org.dida43.path.finder.exceptions.PathException;
-import org.dida43.path.finder.pojos.Coordinates;
+import org.dida43.path.finder.pojos.Position;
 
 public class BrokenPathException extends PathException {
-  public BrokenPathException(Coordinates coordinates) {
-    super("Broken path on coordinates: "+coordinates.toString());
+  public BrokenPathException(Position position) {
+    super("Broken path on position: "+position.toString());
   }
 }

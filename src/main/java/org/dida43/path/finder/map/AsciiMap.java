@@ -2,71 +2,71 @@ package org.dida43.path.finder.map;
 
 import org.dida43.path.finder.enums.Characters;
 import org.dida43.path.finder.exceptions.map.*;
-import org.dida43.path.finder.pojos.Coordinates;
+import org.dida43.path.finder.pojos.Position;
 
 public class AsciiMap {
   private final char map[][];
-  private final boolean mapOfCoordinatesVisited[][];
+  private final boolean mapOfPositionsVisited[][];
 
-  private AsciiMap(char[][] map, boolean[][] mapOfCoordinatesVisited) {
+  private AsciiMap(char[][] map, boolean[][] mapOfPositionsVisited) {
     this.map = map;
-    this.mapOfCoordinatesVisited = mapOfCoordinatesVisited;
+    this.mapOfPositionsVisited = mapOfPositionsVisited;
   }
 
-  public char getCharForCoordinates(Coordinates coordinates) {
+  public char getCharForPosition(Position position) {
     try {
-      return map[coordinates.row()][coordinates.column()];
+      return map[position.row()][position.column()];
     } catch (ArrayIndexOutOfBoundsException ex) {
       return 0;
     }
   }
 
-  public void visitCoordinates(Coordinates coordinates) throws VisitCoordinatesException {
+  public void visitPosition(Position position) throws VisitPositionException {
     try {
-      mapOfCoordinatesVisited[coordinates.row()][coordinates.column()] = true;
+      mapOfPositionsVisited[position.row()][position.column()] = true;
     } catch (ArrayIndexOutOfBoundsException ex) {
-      throw new VisitCoordinatesException(coordinates);
+      throw new VisitPositionException(position);
     }
   }
 
-  public boolean areCoordinatesVisited(Coordinates coordinates) throws AreCoordinatesVisitedException {
+  public boolean isPositionVisited(Position position) throws IsPositionVisitedException {
     try {
-      return mapOfCoordinatesVisited[coordinates.row()][coordinates.column()];
+      return mapOfPositionsVisited[position.row()][position.column()];
     } catch (ArrayIndexOutOfBoundsException ex) {
-      throw new AreCoordinatesVisitedException(coordinates);
+      throw new IsPositionVisitedException(position);
     }
   }
 
-  public Coordinates startCoordinates() throws MultipleStartsException, NoStartException {
-    Coordinates startingCoordinates = null;
+  public Position startingPosition() throws MultipleStartsException, NoStartException {
+    Position startingPosition = null;
     for (int i = 0; i < map.length; i++) {
       for (int j = 0; j < map[i].length; j++) {
         if (map[i][j] == Characters.STARTING.value) {
-          if (startingCoordinates != null)
+          if (startingPosition != null)
             throw new MultipleStartsException();
-          startingCoordinates = new Coordinates(i, j);
+          startingPosition = new Position(i, j);
         }
       }
     }
-    if (startingCoordinates == null)
+    if (startingPosition == null)
       throw new NoStartException();
-    return startingCoordinates;
+    return startingPosition;
   }
 
-  public Coordinates endCoordinates() throws MultipleEndsException, NoEndException {
-    Coordinates endCoordinates = null;
+  public Position endPosition() throws MultipleEndsException, NoEndException {
+    Position endPosition = null;
     for (int i = 0; i < map.length; i++) {
       for (int j = 0; j < map[i].length; j++) {
         if (map[i][j] == Characters.END.value) {
-          if (endCoordinates != null)
+          if (endPosition != null)
             throw new MultipleEndsException();
-          endCoordinates = new Coordinates(i, j);
+          endPosition = new Position(i, j);
         }
       }
     }
-    if (endCoordinates == null)
+    if (endPosition == null)
       throw new NoEndException();
-    return endCoordinates;
+    return endPosition;
   }
 
   public static AsciiMap ofString(String inputFile) {
@@ -74,11 +74,11 @@ public class AsciiMap {
     String[] rowLines = inputFile.split(System.lineSeparator());
     int rows = rowLines.length;
     char[][] map = new char[rows][];
-    boolean[][] mapOfCoordinatesVisited = new boolean[rows][];
+    boolean[][] mapOfPositionsVisited = new boolean[rows][];
     for (int i = 0; i < rows; i++) {
       map[i] = rowLines[i].toCharArray();
-      mapOfCoordinatesVisited[i] = new boolean[map[i].length];
+      mapOfPositionsVisited[i] = new boolean[map[i].length];
     }
-    return new AsciiMap(map, mapOfCoordinatesVisited);
+    return new AsciiMap(map, mapOfPositionsVisited);
   }
 }
