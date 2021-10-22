@@ -33,8 +33,8 @@ public class AsciiMapWalkerTest {
 
     Path path = AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
 
-    assertEquals("ACB", path.pathAsLetters());
-    assertEquals("@---A---+|C|+---+|+-B-x", path.pathAsCharacters());
+    assertEquals("ACB", path.asLetters());
+    assertEquals("@---A---+|C|+---+|+-B-x", path.asCharacters());
   }
 
   @Test public void goStraightThroughIntersections() throws Exception {
@@ -42,8 +42,8 @@ public class AsciiMapWalkerTest {
 
     Path path = AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
 
-    assertEquals("ABCD", path.pathAsLetters());
-    assertEquals("@|A+---B--+|+--C-+|-||+---D--+|x", path.pathAsCharacters());
+    assertEquals("ABCD", path.asLetters());
+    assertEquals("@|A+---B--+|+--C-+|-||+---D--+|x", path.asCharacters());
   }
 
   @Test public void lettersMayBeFoundOnTurns() throws Exception {
@@ -51,8 +51,8 @@ public class AsciiMapWalkerTest {
 
     Path path = AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
 
-    assertEquals("ACB", path.pathAsLetters());
-    assertEquals("@---A---+|||C---+|+-B-x", path.pathAsCharacters());
+    assertEquals("ACB", path.asLetters());
+    assertEquals("@---A---+|||C---+|+-B-x", path.asCharacters());
   }
 
   @Test public void doNotCollectALetterFromTheSameLocationTwice() throws Exception {
@@ -61,8 +61,8 @@ public class AsciiMapWalkerTest {
 
     Path path = AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
 
-    assertEquals("GOONIES", path.pathAsLetters());
-    assertEquals("@-G-O-+|+-+|O||+-O-N-+|I|+-+|+-I-+|ES|x", path.pathAsCharacters());
+    assertEquals("GOONIES", path.asLetters());
+    assertEquals("@-G-O-+|+-+|O||+-O-N-+|I|+-+|+-I-+|ES|x", path.asCharacters());
   }
 
   @Test public void keepDirectionEvenInACompactSpace() throws Exception {
@@ -70,8 +70,8 @@ public class AsciiMapWalkerTest {
 
     Path path = AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
 
-    assertEquals("BLAH", path.pathAsLetters());
-    assertEquals("@B+++B|+-L-+A+++A-+Hx", path.pathAsCharacters());
+    assertEquals("BLAH", path.asLetters());
+    assertEquals("@B+++B|+-L-+A+++A-+Hx", path.asCharacters());
   }
 
   @Test public void noStart() throws Exception {
