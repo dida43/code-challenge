@@ -1,6 +1,6 @@
 package org.dida43.path.finder.map;
 
-import org.dida43.path.finder.enums.Letters;
+import org.dida43.path.finder.enums.LetterCharacters;
 import org.dida43.path.finder.enums.PathDirection;
 import org.dida43.path.finder.exceptions.CheckMapException;
 import org.dida43.path.finder.exceptions.PathDirectionException;
@@ -33,7 +33,8 @@ public class AsciiMapWalker {
         throw new BrokenPathDirectionException(positionOnPath);
 
       pathAsCharacters.append(currentCharacter);
-      if (Letters.isLetter(currentCharacter) && !asciiMap.isPositionVisited(positionOnPath))
+      if (LetterCharacters.isLetter(currentCharacter) &&
+          !asciiMap.isPositionVisited(positionOnPath))
         letters.append(currentCharacter);
 
       asciiMap.visitPosition(positionOnPath);

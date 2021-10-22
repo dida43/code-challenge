@@ -1,8 +1,8 @@
 package org.dida43.path.finder.map;
 
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import org.dida43.path.finder.enums.Characters;
+import org.dida43.path.finder.enums.LetterCharacters;
+import org.dida43.path.finder.enums.NonPathCharacters;
+import org.dida43.path.finder.enums.PathCharacters;
 import org.dida43.path.finder.exceptions.AsciiMapException;
 import org.dida43.path.finder.exceptions.map.*;
 import org.dida43.path.finder.pojos.Position;
@@ -20,7 +20,7 @@ public class AsciiMap {
     try {
       return map[position.row()][position.column()];
     } catch (ArrayIndexOutOfBoundsException ex) {
-      return 0;
+      return NonPathCharacters.OUT_OF_BOUNDS.value;
     }
   }
 
@@ -44,7 +44,7 @@ public class AsciiMap {
     Position startingPosition = null;
     for (int i = 0; i < map.length; i++) {
       for (int j = 0; j < map[i].length; j++) {
-        if (map[i][j] == Characters.START.value) {
+        if (map[i][j] == PathCharacters.START.value) {
           if (startingPosition != null)
             throw new MultipleStartsException();
           startingPosition = new Position(i, j);
@@ -60,7 +60,7 @@ public class AsciiMap {
     Position endPosition = null;
     for (int i = 0; i < map.length; i++) {
       for (int j = 0; j < map[i].length; j++) {
-        if (map[i][j] == Characters.END.value) {
+        if (map[i][j] == PathCharacters.END.value) {
           if (endPosition != null)
             throw new MultipleEndsException();
           endPosition = new Position(i, j);
@@ -75,8 +75,8 @@ public class AsciiMap {
   public static AsciiMap ofString(String string) throws AsciiMapException {
     if (string.isEmpty())
       throw new AsciiMapException("Cannot make ascii map for empty string");
-    if (!isStringAscii(string))
-      throw new AsciiMapException("Cannot make ascii map for non ascii characters");
+    if (!isStringValid(string))
+      throw new AsciiMapException("Cannot make ascii map for non valid characters");
 
     String[] rows = string.split(System.lineSeparator());
     char[][] map = new char[rows.length][];
@@ -88,7 +88,10 @@ public class AsciiMap {
     return new AsciiMap(map, mapOfPositionsVisited);
   }
 
-  private static boolean isStringAscii(String s) {
-    return Charset.forName(StandardCharsets.US_ASCII.name()).newEncoder().canEncode(s);
+  private static boolean isStringValid(String s) {
+    String withoutNewLine = s.replace(System.lineSeparator(), "");
+    String regex =
+      "["+LetterCharacters.charset+PathCharacters.charset+NonPathCharacters.SPACE.value()+"]+";
+    return withoutNewLine.matches(regex);
   }
 }

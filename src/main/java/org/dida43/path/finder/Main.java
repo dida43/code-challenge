@@ -14,14 +14,14 @@ public class Main {
   public static void main(String[] args) {
 
     if (args.length != 1) {
-      System.out.println("Error: You need to specify file path!");
+      System.out.println("Error: You need to specify file path");
       System.exit(1);
     }
     String mapAsString = null;
     try {
       mapAsString = readFile(args[0]);
     } catch (IOException e) {
-      System.out.println("Error: Cannot read file!");
+      System.out.println("Error: Cannot read file");
       System.exit(1);
     }
 
@@ -34,7 +34,7 @@ public class Main {
       System.exit(1);
     }
 
-    System.out.println("Letters: "+solution.letters());
+    System.out.println("LetterCharacters: "+solution.letters());
     System.out.println("Path as characters: "+solution.pathAsCharacters());
     System.exit(0);
   }

@@ -45,9 +45,9 @@ public enum PathDirection {
     throws TForkPathDirectionException, FakeTurnPathDirectionException
   {
     char inspected = asciiMap.getCharForPosition(position);
-    if (inspected == Characters.TURN.value())
+    if (inspected == PathCharacters.TURN.value())
       return getPathDirectionForTurn(asciiMap, position, currentPathDirection);
-    if (Letters.isLetter(inspected))
+    if (LetterCharacters.isLetter(inspected))
       return getPathDirectionForLetter(asciiMap, position, currentPathDirection);
     return currentPathDirection;
   }
@@ -101,6 +101,6 @@ public enum PathDirection {
   }
 
   public static boolean isPathBroken(char c) {
-    return !Letters.isLetter(c) && !Characters.isCharacter(c);
+    return !LetterCharacters.isLetter(c) && !PathCharacters.isPathCharacter(c);
   }
 }
