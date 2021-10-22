@@ -37,10 +37,9 @@ public class Main {
     }
 
     AsciiMap asciiMap = AsciiMap.ofString(mapAsString);
-    TravelAsciiMap travelAsciiMap = new TravelAsciiMap(asciiMap);
     Solution solution = null;
     try {
-      solution = travelAsciiMap.followPathToSolution();
+      solution = TravelAsciiMap.followPathToSolution(asciiMap);
     } catch (AsciiMapException e) {
       System.out.println("Error");
       logger.fine(e.getMessage());

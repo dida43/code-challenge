@@ -11,13 +11,8 @@ import org.dida43.path.finder.pojos.Solution;
 
 public class TravelAsciiMap {
 
-  private final AsciiMap asciiMap;
-
-  public TravelAsciiMap(AsciiMap asciiMap) {
-    this.asciiMap = asciiMap;
-  }
-
-  public Solution followPathToSolution() throws CheckMapException, PathDirectionException
+  public static Solution followPathToSolution(AsciiMap asciiMap)
+    throws CheckMapException, PathDirectionException
   {
     StringBuilder pathAsCharacters = new StringBuilder();
     StringBuilder letters = new StringBuilder();
@@ -47,7 +42,7 @@ public class TravelAsciiMap {
     return new Solution(pathAsCharacters.toString(), letters.toString());
   }
 
-  private Position nextPositionOnPath(Position position, PathDirection pathDirection)
+  private static Position nextPositionOnPath(Position position, PathDirection pathDirection)
     throws NextPositionOnPathException
   {
     switch (pathDirection) {
