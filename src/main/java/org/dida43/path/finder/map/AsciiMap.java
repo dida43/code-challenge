@@ -37,7 +37,7 @@ public class AsciiMap {
     }
   }
 
-  public Position startingPosition() throws MultipleStartsException, NoStartException {
+  public Position startPosition() throws MultipleStartsException, NoStartException {
     Position startingPosition = null;
     for (int i = 0; i < map.length; i++) {
       for (int j = 0; j < map[i].length; j++) {

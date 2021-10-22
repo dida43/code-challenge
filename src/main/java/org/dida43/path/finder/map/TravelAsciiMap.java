@@ -17,7 +17,7 @@ public class TravelAsciiMap {
     StringBuilder pathAsCharacters = new StringBuilder();
     StringBuilder letters = new StringBuilder();
 
-    Position positionOnPath = asciiMap.startingPosition();
+    Position positionOnPath = asciiMap.startPosition();
     Position endPosition = asciiMap.endPosition();
 
     pathAsCharacters.append(asciiMap.getCharForPosition(positionOnPath));
