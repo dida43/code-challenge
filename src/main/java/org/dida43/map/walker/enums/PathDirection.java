@@ -83,7 +83,6 @@ public enum PathDirection {
     AsciiMap asciiMap, Position position, PathDirection currentPathDirection)
     throws TForkPathDirectionException, FakeTurnPathDirectionException
   {
-    //todo:write test for letter on t intersection
     char upChar = asciiMap.getCharForPosition(position.up());
     char downChar = asciiMap.getCharForPosition(position.down());
     char leftChar = asciiMap.getCharForPosition(position.left());
