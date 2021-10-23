@@ -20,7 +20,7 @@ public class AsciiMap {
     try {
       return map[position.row()][position.column()];
     } catch (ArrayIndexOutOfBoundsException ex) {
-      return NonPathCharacters.OUT_OF_BOUNDS.value;
+      return NonPathCharacters.OUT_OF_BOUNDS.value();
     }
   }
 
@@ -44,7 +44,7 @@ public class AsciiMap {
     Position startingPosition = null;
     for (int i = 0; i < map.length; i++) {
       for (int j = 0; j < map[i].length; j++) {
-        if (map[i][j] == PathCharacters.START.value()) {
+        if (map[i][j] == NonPathCharacters.START.value()) {
           if (startingPosition != null)
             throw new MultipleStartsException();
           startingPosition = new Position(i, j);
@@ -91,7 +91,8 @@ public class AsciiMap {
   private static boolean isStringValid(String s) {
     String withoutNewLine = s.replace(System.lineSeparator(), "");
     String regex =
-      "["+LetterCharacters.charset+PathCharacters.charset+NonPathCharacters.SPACE.value()+"]+";
+      "["+LetterCharacters.charset+PathCharacters.charset+NonPathCharacters.SPACE.value()+
+      NonPathCharacters.START.value()+"]+";
     return withoutNewLine.matches(regex);
   }
 }
