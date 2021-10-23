@@ -39,7 +39,7 @@ public class Main {
     System.exit(0);
   }
 
-  static String readFile(String path) throws IOException
+  private static String readFile(String path) throws IOException
   {
     byte[] encoded = Files.readAllBytes(Paths.get(path));
     return new String(encoded, StandardCharsets.UTF_8);
