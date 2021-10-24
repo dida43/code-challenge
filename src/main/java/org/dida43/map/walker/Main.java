@@ -13,18 +13,43 @@ public class Main {
 
   public static void main(String[] args) {
 
+    String filePath = filePathFromArguments(args);
+
+    String mapAsString = readFileAsString(filePath);
+
+    Path asciiMapPath = getPathFromAsciiMap(mapAsString);
+
+    System.out.println("Letters "+asciiMapPath.asLetters());
+    System.out.println("Path as characters "+asciiMapPath.asCharacters());
+    System.exit(0);
+  }
+
+  private static String filePathFromArguments(String[] args) {
     if (args.length != 1) {
       System.out.println("Error: You need to specify file path");
       System.exit(1);
     }
+    return args[0];
+  }
+
+  private static String readFileAsString(String filePath) {
     String mapAsString = null;
     try {
-      mapAsString = readFile(args[0]);
+      mapAsString = readFile(filePath);
     } catch (IOException e) {
       System.out.println("Error: Cannot read file");
       System.exit(1);
     }
+    return mapAsString;
+  }
 
+  private static String readFile(String path) throws IOException
+  {
+    byte[] encoded = Files.readAllBytes(Paths.get(path));
+    return new String(encoded, StandardCharsets.UTF_8);
+  }
+
+  private static Path getPathFromAsciiMap(String mapAsString) {
     Path path = null;
     try {
       AsciiMap asciiMap = AsciiMap.ofString(mapAsString);
@@ -33,15 +58,6 @@ public class Main {
       System.out.println("Error: "+e.getMessage());
       System.exit(1);
     }
-
-    System.out.println("Letters "+path.asLetters());
-    System.out.println("Path as characters "+path.asCharacters());
-    System.exit(0);
-  }
-
-  private static String readFile(String path) throws IOException
-  {
-    byte[] encoded = Files.readAllBytes(Paths.get(path));
-    return new String(encoded, StandardCharsets.UTF_8);
+    return path;
   }
 }
