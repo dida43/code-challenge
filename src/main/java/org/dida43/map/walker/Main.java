@@ -26,7 +26,7 @@ public class Main {
 
   private static String filePathFromArguments(String[] args) {
     if (args.length != 1) {
-      System.out.println("Error: You need to specify file path");
+      System.out.println("Error: File path argument missing");
       System.exit(1);
     }
     return args[0];
@@ -37,7 +37,7 @@ public class Main {
     try {
       mapAsString = readFile(filePath);
     } catch (IOException e) {
-      System.out.println("Error: Cannot read file");
+      System.out.println("Error: Cannot read file "+filePath);
       System.exit(1);
     }
     return mapAsString;
