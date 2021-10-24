@@ -76,7 +76,7 @@ public class AsciiMap {
     if (string == null)
       throw new AsciiMapException("Cannot make ascii map for non existing string");
     if (string.isEmpty())
-      throw new AsciiMapException("Cannot make ascii map for empty string");
+      throw new AsciiMapException("Cannot make ascii map for empty file");
     if (!isStringValid(string))
       throw new AsciiMapException("Cannot make ascii map for non valid characters");
 
