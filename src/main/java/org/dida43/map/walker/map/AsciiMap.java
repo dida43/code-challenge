@@ -73,6 +73,8 @@ public class AsciiMap {
   }
 
   public static AsciiMap ofString(String string) throws AsciiMapException {
+    if (string == null)
+      throw new AsciiMapException("Cannot make ascii map for non existing string");
     if (string.isEmpty())
       throw new AsciiMapException("Cannot make ascii map for empty string");
     if (!isStringValid(string))
