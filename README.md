@@ -19,22 +19,22 @@ run command:
 
     $ mvn clean install
 
-Command will run tests and build executable code-challenge.jar with example files in directory:
+Command will run tests and build executable `code-challenge.jar` with example files in directory:
 
     target/code-challenge-app
 
 ## Usage
 
-User should position itself into target/code-challenge-app directory and run command:
+User should position itself into `target/code-challenge-app` directory and run command:
 
     $ java -jar code-challenge.jar /path/to/file
 
-where */path/to/file* is path to ASCII Map file
+where `/path/to/file` is path to ASCII Map file
 
 ### Examples
 
-Directory target/code-challenge-app/examples contains list of basic example ASCII Maps which can be
-used to test the application. Below are some examples of application runs.
+Directory `target/code-challenge-app/examples` contains list of basic example ASCII Maps which can
+be used to test the application. Below are some examples of application runs.
 
 #### Example 1
 
@@ -144,6 +144,5 @@ Tests run: 64, Failures: 0, Errors: 0, Skipped: 0
 [INFO] Total time:  1.668 s
 [INFO] Finished at: 2021-10-25T10:45:55+02:00
 [INFO] ------------------------------------------------------------------------
-MacBook-Pro:code-challenge dida43$ 
 
 ```
