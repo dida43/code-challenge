@@ -14,7 +14,8 @@ MacOS.
 
 ## Installation
 
-To install the application and be able to use `code-challenge.jar` from command line, run command
+To install the application and be able to use `code-challenge.jar` from command line, user should
+run command
 
     $ mvn clean install
 
