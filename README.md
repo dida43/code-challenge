@@ -24,11 +24,11 @@ Command will run tests and build executable code-challenge.jar with example file
 
 ## Usage
 
-You need to position yourself into target/code-challenge-app directory and run command:
+User should position itself into target/code-challenge-app directory and run command:
 
     $ java -jar code-challenge.jar /path/to/file
 
-Where /path/to/file is path to ASCII Map file
+where */path/to/file* is path to ASCII Map file
 
 ### Examples
 
@@ -79,8 +79,8 @@ Path as characters @|A+---B--+|+--C-+|-||+---D--+|x
 
 ### Running tests
 
-As mentioned in Installation chapter, tests execute while installing the app. To only run tests use
-command:
+As mentioned in Installation chapter, tests execute while installing the app. To only run tests user
+can use the command:
 
     $ mvn test
 
