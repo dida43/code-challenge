@@ -15,19 +15,19 @@ public enum PathDirection {
   {
     PathDirection startingPathDirection = null;
     int noOfTraversableChars = 0;
-    if (!isPathBroken(asciiMap.getCharForPosition(position.up()))) {
+    if (canTravel(asciiMap.getCharForPosition(position.up()))) {
       noOfTraversableChars++;
       startingPathDirection = PathDirection.UP;
     }
-    if (!isPathBroken(asciiMap.getCharForPosition(position.down()))) {
+    if (canTravel(asciiMap.getCharForPosition(position.down()))) {
       noOfTraversableChars++;
       startingPathDirection = PathDirection.DOWN;
     }
-    if (!isPathBroken(asciiMap.getCharForPosition(position.left()))) {
+    if (canTravel(asciiMap.getCharForPosition(position.left()))) {
       noOfTraversableChars++;
       startingPathDirection = PathDirection.LEFT;
     }
-    if (!isPathBroken(asciiMap.getCharForPosition(position.right()))) {
+    if (canTravel(asciiMap.getCharForPosition(position.right()))) {
       noOfTraversableChars++;
       startingPathDirection = PathDirection.RIGHT;
     }
@@ -59,21 +59,21 @@ public enum PathDirection {
     if (currentPathDirection == PathDirection.UP || currentPathDirection == PathDirection.DOWN) {
       char leftChar = asciiMap.getCharForPosition(position.left());
       char rightChar = asciiMap.getCharForPosition(position.right());
-      if (!isPathBroken(leftChar) && !isPathBroken(rightChar))
+      if (canTravel(leftChar) && canTravel(rightChar))
         throw new TForkPathDirectionException(position);
-      if (!isPathBroken(leftChar))
+      if (canTravel(leftChar))
         return PathDirection.LEFT;
-      if (!isPathBroken(rightChar))
+      if (canTravel(rightChar))
         return PathDirection.RIGHT;
     }
     if (currentPathDirection == PathDirection.LEFT || currentPathDirection == PathDirection.RIGHT) {
       char upChar = asciiMap.getCharForPosition(position.up());
       char downChar = asciiMap.getCharForPosition(position.down());
-      if (!isPathBroken(upChar) && !isPathBroken(downChar))
+      if (canTravel(upChar) && canTravel(downChar))
         throw new TForkPathDirectionException(position);
-      if (!isPathBroken(upChar))
+      if (canTravel(upChar))
         return PathDirection.UP;
-      if (!isPathBroken(downChar))
+      if (canTravel(downChar))
         return PathDirection.DOWN;
     }
     throw new FakeTurnPathDirectionException(position);
@@ -87,19 +87,20 @@ public enum PathDirection {
     char downChar = asciiMap.getCharForPosition(position.down());
     char leftChar = asciiMap.getCharForPosition(position.left());
     char rightChar = asciiMap.getCharForPosition(position.right());
-    if (currentPathDirection == PathDirection.UP && !isPathBroken(upChar))
+    if (currentPathDirection == PathDirection.UP && canTravel(upChar))
       return currentPathDirection;
-    if (currentPathDirection == PathDirection.DOWN && !isPathBroken(downChar))
+    if (currentPathDirection == PathDirection.DOWN && canTravel(downChar))
       return currentPathDirection;
-    if (currentPathDirection == PathDirection.LEFT && !isPathBroken(leftChar))
+    if (currentPathDirection == PathDirection.LEFT && canTravel(leftChar))
       return currentPathDirection;
-    if (currentPathDirection == PathDirection.RIGHT && !isPathBroken(rightChar))
+    if (currentPathDirection == PathDirection.RIGHT && canTravel(rightChar))
       return currentPathDirection;
 
     return getPathDirectionForTurn(asciiMap, position, currentPathDirection);
   }
 
-  public static boolean isPathBroken(char c) {
-    return !LetterCharacters.isLetter(c) && !PathCharacters.isPathCharacter(c);
+  public static boolean canTravel(char c) {
+    return LetterCharacters.isLetter(c) || PathCharacters.isPathCharacter(c) ||
+           c == NonPathCharacters.END.value();
   }
 }

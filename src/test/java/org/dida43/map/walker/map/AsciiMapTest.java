@@ -99,7 +99,7 @@ public class AsciiMapTest {
       .append(LetterCharacters.A)
       .append(System.lineSeparator())
       .append(NonPathCharacters.SPACE.value())
-      .append(PathCharacters.END.value())
+      .append(NonPathCharacters.END.value())
       .append(System.lineSeparator())
       .append(LetterCharacters.A)
       .toString();
@@ -127,8 +127,8 @@ public class AsciiMapTest {
     String mapAsString = new StringBuilder()
       .append(LetterCharacters.A)
       .append(System.lineSeparator())
-      .append(PathCharacters.END.value())
-      .append(PathCharacters.END.value())
+      .append(NonPathCharacters.END.value())
+      .append(NonPathCharacters.END.value())
       .append(System.lineSeparator())
       .append(LetterCharacters.A)
       .toString();

@@ -60,7 +60,7 @@ public class AsciiMap {
     Position endPosition = null;
     for (int i = 0; i < map.length; i++) {
       for (int j = 0; j < map[i].length; j++) {
-        if (map[i][j] == PathCharacters.END.value()) {
+        if (map[i][j] == NonPathCharacters.END.value()) {
           if (endPosition != null)
             throw new MultipleEndsException();
           endPosition = new Position(i, j);

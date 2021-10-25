@@ -9,6 +9,7 @@ public class NonPathCharactersTest {
   @Test public void test_value_ExpectedValuesTrue() {
 
     assertEquals('@', NonPathCharacters.START.value());
+    assertEquals('x', NonPathCharacters.END.value());
     assertEquals(' ', NonPathCharacters.SPACE.value());
     assertEquals('\u0000', NonPathCharacters.OUT_OF_BOUNDS.value());
   }

@@ -28,7 +28,8 @@ public class AsciiMapWalker {
       positionOnPath = nextPositionOnPath(positionOnPath, pathDirection);
       char currentCharacter = asciiMap.getCharForPosition(positionOnPath);
 
-      if (PathDirection.isPathBroken(currentCharacter))
+      //todo check this
+      if (!PathDirection.canTravel(currentCharacter))
         throw new BrokenPathDirectionException(positionOnPath);
 
       pathAsCharacters.append(currentCharacter);
