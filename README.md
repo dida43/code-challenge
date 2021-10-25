@@ -8,9 +8,9 @@ algorithm in ASCII Map.
 
 ## Requirements
 
-User should have Maven build tool and Java (JRE or JDK, minimum version 8) installed on the system.
-It may be worth noting that the application was developed in Java 8 and tested using Apache Maven
-3.6.1 on MacOS.
+User should have Maven build tool and Java (JDK, minimum version 8) installed on the system. It may
+be worth noting that the application was developed in Java 8 and tested using Apache Maven 3.6.1 on
+MacOS.
 
 ## Installation
 
