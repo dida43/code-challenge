@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class NonPathCharactersTest {
 
-  @Test public void testAllValues() {
+  @Test public void test_value_ExpectedValuesTrue() {
 
     assertEquals('@', NonPathCharacters.START.value());
     assertEquals(' ', NonPathCharacters.SPACE.value());

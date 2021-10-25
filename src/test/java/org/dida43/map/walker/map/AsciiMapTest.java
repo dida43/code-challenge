@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AsciiMapTest {
 
-  @Test public void getCharForPositionTest() throws Exception {
+  @Test public void test_getCharForPosition() throws Exception {
     String mapAsString = new StringBuilder()
       .append(PathCharacters.VERTICAL.value())
       .append(LetterCharacters.A)
@@ -32,7 +32,7 @@ public class AsciiMapTest {
                  asciiMap.getCharForPosition(new Position(1, 1)));
   }
 
-  @Test public void visitPositionTest() throws Exception {
+  @Test public void test_visitPosition() throws Exception {
     String mapAsString = new StringBuilder().append(PathCharacters.VERTICAL.value()).toString();
 
     AsciiMap asciiMap = AsciiMap.ofString(mapAsString);
@@ -50,7 +50,7 @@ public class AsciiMapTest {
     });
   }
 
-  @Test public void startPositionTest() throws Exception {
+  @Test public void test_startPosition() throws Exception {
     String mapAsString = new StringBuilder()
       .append(LetterCharacters.A)
       .append(System.lineSeparator())
@@ -65,7 +65,7 @@ public class AsciiMapTest {
     assertEquals(new Position(1, 1), asciiMap.startPosition());
   }
 
-  @Test public void startPositionNoStartTest() throws Exception {
+  @Test public void test_startPosition_NoStart() throws Exception {
     String mapAsString = new StringBuilder()
       .append(LetterCharacters.A)
       .append(System.lineSeparator())
@@ -79,7 +79,7 @@ public class AsciiMapTest {
     Assertions.assertThrows(NoStartException.class, asciiMap::startPosition);
   }
 
-  @Test public void startPositionMultipleStartTest() throws Exception {
+  @Test public void test_startPosition_MultipleStart() throws Exception {
     String mapAsString = new StringBuilder()
       .append(LetterCharacters.A)
       .append(System.lineSeparator())
@@ -94,7 +94,7 @@ public class AsciiMapTest {
     Assertions.assertThrows(MultipleStartsException.class, asciiMap::startPosition);
   }
 
-  @Test public void endPositionTest() throws Exception {
+  @Test public void test_endPosition() throws Exception {
     String mapAsString = new StringBuilder()
       .append(LetterCharacters.A)
       .append(System.lineSeparator())
@@ -109,7 +109,7 @@ public class AsciiMapTest {
     assertEquals(new Position(1, 1), asciiMap.endPosition());
   }
 
-  @Test public void endPositionNoEndTest() throws Exception {
+  @Test public void test_endPosition_NoEnd() throws Exception {
     String mapAsString = new StringBuilder()
       .append(LetterCharacters.A)
       .append(System.lineSeparator())
@@ -123,7 +123,7 @@ public class AsciiMapTest {
     Assertions.assertThrows(NoEndException.class, asciiMap::endPosition);
   }
 
-  @Test public void endPositionMultipleEndTest() throws Exception {
+  @Test public void test_endPosition_MultipleEnd() throws Exception {
     String mapAsString = new StringBuilder()
       .append(LetterCharacters.A)
       .append(System.lineSeparator())
@@ -138,7 +138,7 @@ public class AsciiMapTest {
     Assertions.assertThrows(MultipleEndsException.class, asciiMap::endPosition);
   }
 
-  @Test public void ofStringTest() throws Exception {
+  @Test public void test_ofString() throws Exception {
     String mapAsString = new StringBuilder()
       .append(LetterCharacters.A)
       .append(System.lineSeparator())
@@ -152,7 +152,7 @@ public class AsciiMapTest {
     assertNotNull(asciiMap);
   }
 
-  @Test public void ofStringNegativeTest() {
+  @Test public void test_ofString_Negative() {
 
     Assertions.assertThrows(AsciiMapException.class, () -> {
       AsciiMap.ofString(null);

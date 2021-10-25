@@ -8,11 +8,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PathCharactersTest {
 
-  @Test public void testCharset() {
+  @Test public void test_charset_ContainsAllCharacters() {
     assertEquals("+-|x", PathCharacters.charset);
   }
 
-  @Test public void testIsPathCharacter() {
+  @Test public void test_isPathCharacter_AllCharsPathCharTrueNonCharFalse() {
     for (char c : PathCharacters.charset.toCharArray()) {
       assertTrue(PathCharacters.isPathCharacter(c));
     }

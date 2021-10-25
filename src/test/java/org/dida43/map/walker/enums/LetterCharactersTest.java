@@ -8,11 +8,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LetterCharactersTest {
 
-  @Test public void testCharset() {
+  @Test public void test_charset_ContainsAllCharacters() {
     assertEquals("ABCDEGHILNOS", LetterCharacters.charset);
   }
 
-  @Test public void testIsLetterCharacter() {
+  @Test public void test_isLetter_AllCharsLetterTrueNonCharFalse() {
     for (char c : LetterCharacters.charset.toCharArray()) {
       assertTrue(LetterCharacters.isLetter(c));
     }
