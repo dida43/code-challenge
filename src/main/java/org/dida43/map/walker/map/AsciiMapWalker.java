@@ -1,6 +1,8 @@
 package org.dida43.map.walker.map;
 
 import org.dida43.map.walker.enums.LetterCharacters;
+import org.dida43.map.walker.enums.NonPathCharacters;
+import org.dida43.map.walker.enums.PathCharacters;
 import org.dida43.map.walker.enums.PathDirection;
 import org.dida43.map.walker.exceptions.CheckMapException;
 import org.dida43.map.walker.exceptions.PathDirectionException;
@@ -28,8 +30,7 @@ public class AsciiMapWalker {
       positionOnPath = nextPositionOnPath(positionOnPath, pathDirection);
       char currentCharacter = asciiMap.getCharForPosition(positionOnPath);
 
-      //todo check this
-      if (!PathDirection.canTravel(currentCharacter))
+      if (!canWalk(currentCharacter))
         throw new BrokenPathDirectionException(positionOnPath);
 
       pathAsCharacters.append(currentCharacter);
@@ -41,6 +42,11 @@ public class AsciiMapWalker {
       pathDirection = PathDirection.getPathDirection(asciiMap, positionOnPath, pathDirection);
     }
     return new Path(pathAsCharacters.toString(), letters.toString());
+  }
+
+  public static boolean canWalk(char c) {
+    return LetterCharacters.isLetter(c) || PathCharacters.isPathCharacter(c) ||
+           c == NonPathCharacters.END.value();
   }
 
   private static Position nextPositionOnPath(Position position, PathDirection pathDirection)

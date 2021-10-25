@@ -5,6 +5,7 @@ import org.dida43.map.walker.exceptions.path.MultipleStartingPathDirectionExcept
 import org.dida43.map.walker.exceptions.path.NoStartingPathDirectionException;
 import org.dida43.map.walker.exceptions.path.TForkPathDirectionException;
 import org.dida43.map.walker.map.AsciiMap;
+import org.dida43.map.walker.map.AsciiMapWalker;
 import org.dida43.map.walker.pojos.Position;
 
 public enum PathDirection {
@@ -15,19 +16,19 @@ public enum PathDirection {
   {
     PathDirection startingPathDirection = null;
     int noOfTraversableChars = 0;
-    if (canTravel(asciiMap.getCharForPosition(position.up()))) {
+    if (AsciiMapWalker.canWalk(asciiMap.getCharForPosition(position.up()))) {
       noOfTraversableChars++;
       startingPathDirection = PathDirection.UP;
     }
-    if (canTravel(asciiMap.getCharForPosition(position.down()))) {
+    if (AsciiMapWalker.canWalk(asciiMap.getCharForPosition(position.down()))) {
       noOfTraversableChars++;
       startingPathDirection = PathDirection.DOWN;
     }
-    if (canTravel(asciiMap.getCharForPosition(position.left()))) {
+    if (AsciiMapWalker.canWalk(asciiMap.getCharForPosition(position.left()))) {
       noOfTraversableChars++;
       startingPathDirection = PathDirection.LEFT;
     }
-    if (canTravel(asciiMap.getCharForPosition(position.right()))) {
+    if (AsciiMapWalker.canWalk(asciiMap.getCharForPosition(position.right()))) {
       noOfTraversableChars++;
       startingPathDirection = PathDirection.RIGHT;
     }
@@ -59,21 +60,21 @@ public enum PathDirection {
     if (currentPathDirection == PathDirection.UP || currentPathDirection == PathDirection.DOWN) {
       char leftChar = asciiMap.getCharForPosition(position.left());
       char rightChar = asciiMap.getCharForPosition(position.right());
-      if (canTravel(leftChar) && canTravel(rightChar))
+      if (AsciiMapWalker.canWalk(leftChar) && AsciiMapWalker.canWalk(rightChar))
         throw new TForkPathDirectionException(position);
-      if (canTravel(leftChar))
+      if (AsciiMapWalker.canWalk(leftChar))
         return PathDirection.LEFT;
-      if (canTravel(rightChar))
+      if (AsciiMapWalker.canWalk(rightChar))
         return PathDirection.RIGHT;
     }
     if (currentPathDirection == PathDirection.LEFT || currentPathDirection == PathDirection.RIGHT) {
       char upChar = asciiMap.getCharForPosition(position.up());
       char downChar = asciiMap.getCharForPosition(position.down());
-      if (canTravel(upChar) && canTravel(downChar))
+      if (AsciiMapWalker.canWalk(upChar) && AsciiMapWalker.canWalk(downChar))
         throw new TForkPathDirectionException(position);
-      if (canTravel(upChar))
+      if (AsciiMapWalker.canWalk(upChar))
         return PathDirection.UP;
-      if (canTravel(downChar))
+      if (AsciiMapWalker.canWalk(downChar))
         return PathDirection.DOWN;
     }
     throw new FakeTurnPathDirectionException(position);
@@ -87,20 +88,15 @@ public enum PathDirection {
     char downChar = asciiMap.getCharForPosition(position.down());
     char leftChar = asciiMap.getCharForPosition(position.left());
     char rightChar = asciiMap.getCharForPosition(position.right());
-    if (currentPathDirection == PathDirection.UP && canTravel(upChar))
+    if (currentPathDirection == PathDirection.UP && AsciiMapWalker.canWalk(upChar))
       return currentPathDirection;
-    if (currentPathDirection == PathDirection.DOWN && canTravel(downChar))
+    if (currentPathDirection == PathDirection.DOWN && AsciiMapWalker.canWalk(downChar))
       return currentPathDirection;
-    if (currentPathDirection == PathDirection.LEFT && canTravel(leftChar))
+    if (currentPathDirection == PathDirection.LEFT && AsciiMapWalker.canWalk(leftChar))
       return currentPathDirection;
-    if (currentPathDirection == PathDirection.RIGHT && canTravel(rightChar))
+    if (currentPathDirection == PathDirection.RIGHT && AsciiMapWalker.canWalk(rightChar))
       return currentPathDirection;
 
     return getPathDirectionForTurn(asciiMap, position, currentPathDirection);
-  }
-
-  public static boolean canTravel(char c) {
-    return LetterCharacters.isLetter(c) || PathCharacters.isPathCharacter(c) ||
-           c == NonPathCharacters.END.value();
   }
 }
