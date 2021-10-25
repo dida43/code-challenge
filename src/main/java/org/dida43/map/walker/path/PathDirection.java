@@ -1,10 +1,8 @@
 package org.dida43.map.walker.path;
 
 import org.dida43.map.walker.CodeChallengeException;
-import org.dida43.map.walker.characters.LetterCharacters;
-import org.dida43.map.walker.characters.PathCharacters;
+import org.dida43.map.walker.characters.Characters;
 import org.dida43.map.walker.map.AsciiMap;
-import org.dida43.map.walker.map.AsciiMapWalker;
 
 public enum PathDirection {
   UP, DOWN, LEFT, RIGHT;
@@ -14,19 +12,19 @@ public enum PathDirection {
   {
     PathDirection startingPathDirection = null;
     int noOfWalkableChars = 0;
-    if (AsciiMapWalker.canWalk(asciiMap.getCharForPosition(position.up()))) {
+    if (Characters.isPath(asciiMap.getCharForPosition(position.up()))) {
       noOfWalkableChars++;
       startingPathDirection = PathDirection.UP;
     }
-    if (AsciiMapWalker.canWalk(asciiMap.getCharForPosition(position.down()))) {
+    if (Characters.isPath(asciiMap.getCharForPosition(position.down()))) {
       noOfWalkableChars++;
       startingPathDirection = PathDirection.DOWN;
     }
-    if (AsciiMapWalker.canWalk(asciiMap.getCharForPosition(position.left()))) {
+    if (Characters.isPath(asciiMap.getCharForPosition(position.left()))) {
       noOfWalkableChars++;
       startingPathDirection = PathDirection.LEFT;
     }
-    if (AsciiMapWalker.canWalk(asciiMap.getCharForPosition(position.right()))) {
+    if (Characters.isPath(asciiMap.getCharForPosition(position.right()))) {
       noOfWalkableChars++;
       startingPathDirection = PathDirection.RIGHT;
     }
@@ -44,9 +42,9 @@ public enum PathDirection {
     throws TForkException, FakeTurnException
   {
     char inspected = asciiMap.getCharForPosition(position);
-    if (inspected == PathCharacters.TURN.value())
+    if (inspected == Characters.TURN.value())
       return getPathDirectionForTurn(asciiMap, position, currentPathDirection);
-    if (LetterCharacters.isLetter(inspected))
+    if (Characters.isLetter(inspected))
       return getPathDirectionForLetter(asciiMap, position, currentPathDirection);
     return currentPathDirection;
   }
@@ -58,21 +56,21 @@ public enum PathDirection {
     if (currentPathDirection == PathDirection.UP || currentPathDirection == PathDirection.DOWN) {
       char leftChar = asciiMap.getCharForPosition(position.left());
       char rightChar = asciiMap.getCharForPosition(position.right());
-      if (AsciiMapWalker.canWalk(leftChar) && AsciiMapWalker.canWalk(rightChar))
+      if (Characters.isPath(leftChar) && Characters.isPath(rightChar))
         throw new TForkException(position);
-      if (AsciiMapWalker.canWalk(leftChar))
+      if (Characters.isPath(leftChar))
         return PathDirection.LEFT;
-      if (AsciiMapWalker.canWalk(rightChar))
+      if (Characters.isPath(rightChar))
         return PathDirection.RIGHT;
     }
     if (currentPathDirection == PathDirection.LEFT || currentPathDirection == PathDirection.RIGHT) {
       char upChar = asciiMap.getCharForPosition(position.up());
       char downChar = asciiMap.getCharForPosition(position.down());
-      if (AsciiMapWalker.canWalk(upChar) && AsciiMapWalker.canWalk(downChar))
+      if (Characters.isPath(upChar) && Characters.isPath(downChar))
         throw new TForkException(position);
-      if (AsciiMapWalker.canWalk(upChar))
+      if (Characters.isPath(upChar))
         return PathDirection.UP;
-      if (AsciiMapWalker.canWalk(downChar))
+      if (Characters.isPath(downChar))
         return PathDirection.DOWN;
     }
     throw new FakeTurnException(position);
@@ -86,13 +84,13 @@ public enum PathDirection {
     char downChar = asciiMap.getCharForPosition(position.down());
     char leftChar = asciiMap.getCharForPosition(position.left());
     char rightChar = asciiMap.getCharForPosition(position.right());
-    if (currentPathDirection == PathDirection.UP && AsciiMapWalker.canWalk(upChar))
+    if (currentPathDirection == PathDirection.UP && Characters.isPath(upChar))
       return currentPathDirection;
-    if (currentPathDirection == PathDirection.DOWN && AsciiMapWalker.canWalk(downChar))
+    if (currentPathDirection == PathDirection.DOWN && Characters.isPath(downChar))
       return currentPathDirection;
-    if (currentPathDirection == PathDirection.LEFT && AsciiMapWalker.canWalk(leftChar))
+    if (currentPathDirection == PathDirection.LEFT && Characters.isPath(leftChar))
       return currentPathDirection;
-    if (currentPathDirection == PathDirection.RIGHT && AsciiMapWalker.canWalk(rightChar))
+    if (currentPathDirection == PathDirection.RIGHT && Characters.isPath(rightChar))
       return currentPathDirection;
 
     return getPathDirectionForTurn(asciiMap, position, currentPathDirection);

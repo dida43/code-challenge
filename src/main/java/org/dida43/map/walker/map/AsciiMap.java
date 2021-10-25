@@ -1,9 +1,7 @@
 package org.dida43.map.walker.map;
 
 import org.dida43.map.walker.CodeChallengeException;
-import org.dida43.map.walker.characters.LetterCharacters;
-import org.dida43.map.walker.characters.NonPathCharacters;
-import org.dida43.map.walker.characters.PathCharacters;
+import org.dida43.map.walker.characters.Characters;
 import org.dida43.map.walker.path.Position;
 
 public class AsciiMap {
@@ -19,7 +17,7 @@ public class AsciiMap {
     try {
       return map[position.row()][position.column()];
     } catch (ArrayIndexOutOfBoundsException ex) {
-      return NonPathCharacters.OUT_OF_BOUNDS.value();
+      return Characters.NON_VALID.value();
     }
   }
 
@@ -43,7 +41,7 @@ public class AsciiMap {
     Position startingPosition = null;
     for (int i = 0; i < map.length; i++) {
       for (int j = 0; j < map[i].length; j++) {
-        if (map[i][j] == NonPathCharacters.START.value()) {
+        if (map[i][j] == Characters.START.value()) {
           if (startingPosition != null)
             throw new MultipleStartsException();
           startingPosition = new Position(i, j);
@@ -59,7 +57,7 @@ public class AsciiMap {
     Position endPosition = null;
     for (int i = 0; i < map.length; i++) {
       for (int j = 0; j < map[i].length; j++) {
-        if (map[i][j] == NonPathCharacters.END.value()) {
+        if (map[i][j] == Characters.END.value()) {
           if (endPosition != null)
             throw new MultipleEndsException();
           endPosition = new Position(i, j);
@@ -91,43 +89,41 @@ public class AsciiMap {
 
   private static boolean isStringValid(String s) {
     String withoutNewLine = s.replace(System.lineSeparator(), "");
-    String regex =
-      "["+LetterCharacters.charset+PathCharacters.charset+NonPathCharacters.SPACE.value()+
-      NonPathCharacters.START.value()+"]+";
+    String regex = "["+Characters.charset()+"]+";
     return withoutNewLine.matches(regex);
   }
 
-  public static class MultipleStartsException extends CodeChallengeException {
+  protected static class MultipleStartsException extends CodeChallengeException {
     public MultipleStartsException() {
       super("Multiple starts found in ascii map");
     }
   }
 
-  public static class MultipleEndsException extends CodeChallengeException {
+  protected static class MultipleEndsException extends CodeChallengeException {
     public MultipleEndsException() {
       super("Multiple ends found in ascii map");
     }
   }
 
-  public static class NoStartException extends CodeChallengeException {
+  protected static class NoStartException extends CodeChallengeException {
     public NoStartException() {
       super("No start found in ascii map");
     }
   }
 
-  public static class NoEndException extends CodeChallengeException {
+  protected static class NoEndException extends CodeChallengeException {
     public NoEndException() {
       super("No end found in ascii map");
     }
   }
 
-  public static class VisitPositionException extends CodeChallengeException {
+  protected static class VisitPositionException extends CodeChallengeException {
     public VisitPositionException(Position position) {
       super("Cannot visit position: "+position.toString()+" because it is out of map.");
     }
   }
 
-  public static class IsPositionVisitedException extends CodeChallengeException {
+  protected static class IsPositionVisitedException extends CodeChallengeException {
     public IsPositionVisitedException(Position position) {
       super(
         "Cannot check if position: "+position.toString()+" is visited because it is out of map.");

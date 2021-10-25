@@ -1,9 +1,7 @@
 package org.dida43.map.walker.map;
 
 import org.dida43.map.walker.CodeChallengeException;
-import org.dida43.map.walker.characters.LetterCharacters;
-import org.dida43.map.walker.characters.NonPathCharacters;
-import org.dida43.map.walker.characters.PathCharacters;
+import org.dida43.map.walker.characters.Characters;
 import org.dida43.map.walker.path.Path;
 import org.dida43.map.walker.path.PathDirection;
 import org.dida43.map.walker.path.Position;
@@ -27,23 +25,17 @@ public class AsciiMapWalker {
       positionOnPath = nextPositionOnPath(positionOnPath, pathDirection);
       char currentCharacter = asciiMap.getCharForPosition(positionOnPath);
 
-      if (!canWalk(currentCharacter))
+      if (!Characters.isPath(currentCharacter))
         throw new BrokenPathException(positionOnPath);
 
       pathAsCharacters.append(currentCharacter);
-      if (LetterCharacters.isLetter(currentCharacter) &&
-          !asciiMap.isPositionVisited(positionOnPath))
+      if (Characters.isLetter(currentCharacter) && !asciiMap.isPositionVisited(positionOnPath))
         letters.append(currentCharacter);
 
       asciiMap.visitPosition(positionOnPath);
       pathDirection = PathDirection.getPathDirection(asciiMap, positionOnPath, pathDirection);
     }
     return new Path(pathAsCharacters.toString(), letters.toString());
-  }
-
-  public static boolean canWalk(char c) {
-    return LetterCharacters.isLetter(c) || PathCharacters.isPathCharacter(c) ||
-           c == NonPathCharacters.END.value();
   }
 
   private static Position nextPositionOnPath(Position position, PathDirection pathDirection)
