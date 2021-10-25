@@ -49,7 +49,7 @@
               <archive>
                 <manifest>
                   <mainClass>
-                    org.dida43.map.walker.Main
+                    org.dida43.map.walker.CodeChallenge
                   </mainClass>
                 </manifest>
               </archive>

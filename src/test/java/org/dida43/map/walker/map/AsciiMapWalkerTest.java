@@ -7,15 +7,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import org.dida43.map.walker.exceptions.AsciiMapException;
-import org.dida43.map.walker.exceptions.map.MultipleEndsException;
-import org.dida43.map.walker.exceptions.map.MultipleStartsException;
-import org.dida43.map.walker.exceptions.map.NoEndException;
-import org.dida43.map.walker.exceptions.map.NoStartException;
-import org.dida43.map.walker.exceptions.path.BrokenPathDirectionException;
-import org.dida43.map.walker.exceptions.path.FakeTurnPathDirectionException;
-import org.dida43.map.walker.exceptions.path.MultipleStartingPathDirectionException;
-import org.dida43.map.walker.exceptions.path.TForkPathDirectionException;
+import org.dida43.map.walker.CodeChallengeException;
+import org.dida43.map.walker.enums.PathDirection;
 import org.dida43.map.walker.pojos.Path;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -81,7 +74,7 @@ public class AsciiMapWalkerTest {
   @Test public void test_recordPath_NoStart() throws Exception {
     String mapAsString = resourceFileAsString("06NoStart");
 
-    Assertions.assertThrows(NoStartException.class, () -> {
+    Assertions.assertThrows(AsciiMap.NoStartException.class, () -> {
       AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
     });
   }
@@ -89,7 +82,7 @@ public class AsciiMapWalkerTest {
   @Test public void test_recordPath_NoEnd() throws Exception {
     String mapAsString = resourceFileAsString("07NoEnd");
 
-    Assertions.assertThrows(NoEndException.class, () -> {
+    Assertions.assertThrows(AsciiMap.NoEndException.class, () -> {
       AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
     });
   }
@@ -97,7 +90,7 @@ public class AsciiMapWalkerTest {
   @Test public void test_recordPath_MultipleStarts() throws Exception {
     String mapAsString = resourceFileAsString("08MultipleStarts");
 
-    Assertions.assertThrows(MultipleStartsException.class, () -> {
+    Assertions.assertThrows(AsciiMap.MultipleStartsException.class, () -> {
       AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
     });
   }
@@ -105,7 +98,7 @@ public class AsciiMapWalkerTest {
   @Test public void test_recordPath_MultipleEnds() throws Exception {
     String mapAsString = resourceFileAsString("09MultipleEnds");
 
-    Assertions.assertThrows(MultipleEndsException.class, () -> {
+    Assertions.assertThrows(AsciiMap.MultipleEndsException.class, () -> {
       AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
     });
   }
@@ -113,7 +106,7 @@ public class AsciiMapWalkerTest {
   @Test public void test_recordPath_TForksAMultipleEnds() throws Exception {
     String mapAsString = resourceFileAsString("10aTForksMultipleEnds");
 
-    Assertions.assertThrows(MultipleEndsException.class, () -> {
+    Assertions.assertThrows(AsciiMap.MultipleEndsException.class, () -> {
       AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
     });
   }
@@ -121,7 +114,7 @@ public class AsciiMapWalkerTest {
   @Test public void test_recordPath_TForksB() throws Exception {
     String mapAsString = resourceFileAsString("10bTForks");
 
-    Assertions.assertThrows(TForkPathDirectionException.class, () -> {
+    Assertions.assertThrows(PathDirection.TForkException.class, () -> {
       AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
     });
   }
@@ -129,7 +122,7 @@ public class AsciiMapWalkerTest {
   @Test public void test_recordPath_BrokenPath() throws Exception {
     String mapAsString = resourceFileAsString("11BrokenPath");
 
-    Assertions.assertThrows(BrokenPathDirectionException.class, () -> {
+    Assertions.assertThrows(AsciiMapWalker.BrokenPathException.class, () -> {
       AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
     });
   }
@@ -137,7 +130,7 @@ public class AsciiMapWalkerTest {
   @Test public void test_recordPath_MultipleStartingPaths() throws Exception {
     String mapAsString = resourceFileAsString("12MultipleStartingPaths");
 
-    Assertions.assertThrows(MultipleStartingPathDirectionException.class, () -> {
+    Assertions.assertThrows(PathDirection.MultipleStartException.class, () -> {
       AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
     });
   }
@@ -145,7 +138,7 @@ public class AsciiMapWalkerTest {
   @Test public void test_recordPath_FakeTurn() throws Exception {
     String mapAsString = resourceFileAsString("13FakeTurn");
 
-    Assertions.assertThrows(FakeTurnPathDirectionException.class, () -> {
+    Assertions.assertThrows(PathDirection.FakeTurnException.class, () -> {
       AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
     });
   }
@@ -153,7 +146,7 @@ public class AsciiMapWalkerTest {
   @Test public void test_recordPath_NonAsciiMap() throws Exception {
     String mapAsString = resourceFileAsString("14NonAsciiMap");
 
-    Assertions.assertThrows(AsciiMapException.class, () -> {
+    Assertions.assertThrows(CodeChallengeException.class, () -> {
       AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
     });
   }
@@ -161,7 +154,7 @@ public class AsciiMapWalkerTest {
   @Test public void test_recordPath_EmptyMap() throws Exception {
     String mapAsString = resourceFileAsString("15EmptyMap");
 
-    Assertions.assertThrows(AsciiMapException.class, () -> {
+    Assertions.assertThrows(CodeChallengeException.class, () -> {
       AsciiMapWalker.recordPath(AsciiMap.ofString(mapAsString));
     });
   }

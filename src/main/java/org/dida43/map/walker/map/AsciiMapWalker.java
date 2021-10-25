@@ -1,19 +1,16 @@
 package org.dida43.map.walker.map;
 
+import org.dida43.map.walker.CodeChallengeException;
 import org.dida43.map.walker.enums.LetterCharacters;
 import org.dida43.map.walker.enums.NonPathCharacters;
 import org.dida43.map.walker.enums.PathCharacters;
 import org.dida43.map.walker.enums.PathDirection;
-import org.dida43.map.walker.exceptions.CheckMapException;
-import org.dida43.map.walker.exceptions.PathDirectionException;
-import org.dida43.map.walker.exceptions.map.NextPositionOnPathException;
-import org.dida43.map.walker.exceptions.path.BrokenPathDirectionException;
 import org.dida43.map.walker.pojos.Path;
 import org.dida43.map.walker.pojos.Position;
 
 public class AsciiMapWalker {
 
-  public static Path recordPath(AsciiMap asciiMap) throws CheckMapException, PathDirectionException
+  public static Path recordPath(AsciiMap asciiMap) throws CodeChallengeException
   {
     StringBuilder pathAsCharacters = new StringBuilder();
     StringBuilder letters = new StringBuilder();
@@ -31,7 +28,7 @@ public class AsciiMapWalker {
       char currentCharacter = asciiMap.getCharForPosition(positionOnPath);
 
       if (!canWalk(currentCharacter))
-        throw new BrokenPathDirectionException(positionOnPath);
+        throw new BrokenPathException(positionOnPath);
 
       pathAsCharacters.append(currentCharacter);
       if (LetterCharacters.isLetter(currentCharacter) &&
@@ -63,5 +60,18 @@ public class AsciiMapWalker {
         return position.right();
     }
     throw new NextPositionOnPathException(position, pathDirection);
+  }
+
+  public static class NextPositionOnPathException extends CodeChallengeException {
+    public NextPositionOnPathException(Position position, PathDirection pathDirection) {
+      super("Cannot get next position from: "+position.toString()+" for path direction: "+
+            pathDirection.toString());
+    }
+  }
+
+  public static class BrokenPathException extends CodeChallengeException {
+    public BrokenPathException(Position position) {
+      super("Broken path on position: "+position.toString());
+    }
   }
 }

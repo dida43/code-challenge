@@ -1,10 +1,9 @@
 package org.dida43.map.walker.map;
 
+import org.dida43.map.walker.CodeChallengeException;
 import org.dida43.map.walker.enums.LetterCharacters;
 import org.dida43.map.walker.enums.NonPathCharacters;
 import org.dida43.map.walker.enums.PathCharacters;
-import org.dida43.map.walker.exceptions.AsciiMapException;
-import org.dida43.map.walker.exceptions.map.*;
 import org.dida43.map.walker.pojos.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -42,10 +41,10 @@ public class AsciiMapTest {
 
     assertTrue(asciiMap.isPositionVisited(positionToVisit));
 
-    Assertions.assertThrows(VisitPositionException.class, () -> {
+    Assertions.assertThrows(AsciiMap.VisitPositionException.class, () -> {
       asciiMap.visitPosition(new Position(1, 1));
     });
-    Assertions.assertThrows(IsPositionVisitedException.class, () -> {
+    Assertions.assertThrows(AsciiMap.IsPositionVisitedException.class, () -> {
       asciiMap.isPositionVisited(new Position(1, 1));
     });
   }
@@ -76,7 +75,7 @@ public class AsciiMapTest {
 
     AsciiMap asciiMap = AsciiMap.ofString(mapAsString);
 
-    Assertions.assertThrows(NoStartException.class, asciiMap::startPosition);
+    Assertions.assertThrows(AsciiMap.NoStartException.class, asciiMap::startPosition);
   }
 
   @Test public void test_startPosition_MultipleStart() throws Exception {
@@ -91,7 +90,7 @@ public class AsciiMapTest {
 
     AsciiMap asciiMap = AsciiMap.ofString(mapAsString);
 
-    Assertions.assertThrows(MultipleStartsException.class, asciiMap::startPosition);
+    Assertions.assertThrows(AsciiMap.MultipleStartsException.class, asciiMap::startPosition);
   }
 
   @Test public void test_endPosition() throws Exception {
@@ -120,7 +119,7 @@ public class AsciiMapTest {
 
     AsciiMap asciiMap = AsciiMap.ofString(mapAsString);
 
-    Assertions.assertThrows(NoEndException.class, asciiMap::endPosition);
+    Assertions.assertThrows(AsciiMap.NoEndException.class, asciiMap::endPosition);
   }
 
   @Test public void test_endPosition_MultipleEnd() throws Exception {
@@ -135,7 +134,7 @@ public class AsciiMapTest {
 
     AsciiMap asciiMap = AsciiMap.ofString(mapAsString);
 
-    Assertions.assertThrows(MultipleEndsException.class, asciiMap::endPosition);
+    Assertions.assertThrows(AsciiMap.MultipleEndsException.class, asciiMap::endPosition);
   }
 
   @Test public void test_ofString() throws Exception {
@@ -154,13 +153,13 @@ public class AsciiMapTest {
 
   @Test public void test_ofString_Negative() {
 
-    Assertions.assertThrows(AsciiMapException.class, () -> {
+    Assertions.assertThrows(CodeChallengeException.class, () -> {
       AsciiMap.ofString(null);
     });
-    Assertions.assertThrows(AsciiMapException.class, () -> {
+    Assertions.assertThrows(CodeChallengeException.class, () -> {
       AsciiMap.ofString("");
     });
-    Assertions.assertThrows(AsciiMapException.class, () -> {
+    Assertions.assertThrows(CodeChallengeException.class, () -> {
       AsciiMap.ofString("¢");
     });
   }

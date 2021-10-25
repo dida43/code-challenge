@@ -1,9 +1,6 @@
 package org.dida43.map.walker.enums;
 
-import org.dida43.map.walker.exceptions.path.FakeTurnPathDirectionException;
-import org.dida43.map.walker.exceptions.path.MultipleStartingPathDirectionException;
-import org.dida43.map.walker.exceptions.path.NoStartingPathDirectionException;
-import org.dida43.map.walker.exceptions.path.TForkPathDirectionException;
+import org.dida43.map.walker.CodeChallengeException;
 import org.dida43.map.walker.map.AsciiMap;
 import org.dida43.map.walker.map.AsciiMapWalker;
 import org.dida43.map.walker.pojos.Position;
@@ -12,7 +9,7 @@ public enum PathDirection {
   UP, DOWN, LEFT, RIGHT;
 
   public static PathDirection getStartingPathDirection(AsciiMap asciiMap, Position position)
-    throws NoStartingPathDirectionException, MultipleStartingPathDirectionException
+    throws NoStartException, MultipleStartException
   {
     PathDirection startingPathDirection = null;
     int noOfWalkableChars = 0;
@@ -34,16 +31,16 @@ public enum PathDirection {
     }
 
     if (noOfWalkableChars < 1)
-      throw new NoStartingPathDirectionException(position);
+      throw new NoStartException(position);
     if (noOfWalkableChars > 1)
-      throw new MultipleStartingPathDirectionException(position);
+      throw new MultipleStartException(position);
 
     return startingPathDirection;
   }
 
   public static PathDirection getPathDirection(
     AsciiMap asciiMap, Position position, PathDirection currentPathDirection)
-    throws TForkPathDirectionException, FakeTurnPathDirectionException
+    throws TForkException, FakeTurnException
   {
     char inspected = asciiMap.getCharForPosition(position);
     if (inspected == PathCharacters.TURN.value())
@@ -55,13 +52,13 @@ public enum PathDirection {
 
   private static PathDirection getPathDirectionForTurn(
     AsciiMap asciiMap, Position position, PathDirection currentPathDirection)
-    throws TForkPathDirectionException, FakeTurnPathDirectionException
+    throws TForkException, FakeTurnException
   {
     if (currentPathDirection == PathDirection.UP || currentPathDirection == PathDirection.DOWN) {
       char leftChar = asciiMap.getCharForPosition(position.left());
       char rightChar = asciiMap.getCharForPosition(position.right());
       if (AsciiMapWalker.canWalk(leftChar) && AsciiMapWalker.canWalk(rightChar))
-        throw new TForkPathDirectionException(position);
+        throw new TForkException(position);
       if (AsciiMapWalker.canWalk(leftChar))
         return PathDirection.LEFT;
       if (AsciiMapWalker.canWalk(rightChar))
@@ -71,18 +68,18 @@ public enum PathDirection {
       char upChar = asciiMap.getCharForPosition(position.up());
       char downChar = asciiMap.getCharForPosition(position.down());
       if (AsciiMapWalker.canWalk(upChar) && AsciiMapWalker.canWalk(downChar))
-        throw new TForkPathDirectionException(position);
+        throw new TForkException(position);
       if (AsciiMapWalker.canWalk(upChar))
         return PathDirection.UP;
       if (AsciiMapWalker.canWalk(downChar))
         return PathDirection.DOWN;
     }
-    throw new FakeTurnPathDirectionException(position);
+    throw new FakeTurnException(position);
   }
 
   private static PathDirection getPathDirectionForLetter(
     AsciiMap asciiMap, Position position, PathDirection currentPathDirection)
-    throws TForkPathDirectionException, FakeTurnPathDirectionException
+    throws TForkException, FakeTurnException
   {
     char upChar = asciiMap.getCharForPosition(position.up());
     char downChar = asciiMap.getCharForPosition(position.down());
@@ -98,5 +95,29 @@ public enum PathDirection {
       return currentPathDirection;
 
     return getPathDirectionForTurn(asciiMap, position, currentPathDirection);
+  }
+
+  public static class FakeTurnException extends CodeChallengeException {
+    public FakeTurnException(Position position) {
+      super("Position: "+position.toString()+" contain fake turn.");
+    }
+  }
+
+  public static class MultipleStartException extends CodeChallengeException {
+    public MultipleStartException(Position position) {
+      super("Multiple paths from position: "+position.toString()+" instead of one.");
+    }
+  }
+
+  public static class NoStartException extends CodeChallengeException {
+    public NoStartException(Position position) {
+      super("No starting path from position: "+position.toString());
+    }
+  }
+
+  public static class TForkException extends CodeChallengeException {
+    public TForkException(Position position) {
+      super("Position: "+position.toString()+" contain T fork. Cannot determine path");
+    }
   }
 }

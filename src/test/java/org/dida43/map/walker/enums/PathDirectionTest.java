@@ -1,10 +1,6 @@
 package org.dida43.map.walker.enums;
 
-import org.dida43.map.walker.exceptions.AsciiMapException;
-import org.dida43.map.walker.exceptions.path.FakeTurnPathDirectionException;
-import org.dida43.map.walker.exceptions.path.MultipleStartingPathDirectionException;
-import org.dida43.map.walker.exceptions.path.NoStartingPathDirectionException;
-import org.dida43.map.walker.exceptions.path.TForkPathDirectionException;
+import org.dida43.map.walker.CodeChallengeException;
 import org.dida43.map.walker.map.AsciiMap;
 import org.dida43.map.walker.pojos.Position;
 import org.junit.jupiter.api.Assertions;
@@ -14,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PathDirectionTest {
 
-  @Test public void test_getStartingPathDirection_Up() throws AsciiMapException {
+  @Test public void test_getStartingPathDirection_Up() throws CodeChallengeException {
     String asciiMapString = new StringBuilder()
       .append(PathCharacters.VERTICAL.value())
       .append(System.lineSeparator())
@@ -27,7 +23,7 @@ public class PathDirectionTest {
     assertEquals(PathDirection.UP, PathDirection.getStartingPathDirection(map, position));
   }
 
-  @Test public void test_getStartingPathDirection_Down() throws AsciiMapException {
+  @Test public void test_getStartingPathDirection_Down() throws CodeChallengeException {
     String asciiMapString = new StringBuilder()
       .append(NonPathCharacters.START.value())
       .append(System.lineSeparator())
@@ -40,7 +36,7 @@ public class PathDirectionTest {
     assertEquals(PathDirection.DOWN, PathDirection.getStartingPathDirection(map, position));
   }
 
-  @Test public void test_getStartingPathDirection_Left() throws AsciiMapException {
+  @Test public void test_getStartingPathDirection_Left() throws CodeChallengeException {
     String asciiMapString = new StringBuilder()
       .append(PathCharacters.HORIZONTAL.value())
       .append(NonPathCharacters.START.value())
@@ -52,7 +48,7 @@ public class PathDirectionTest {
     assertEquals(PathDirection.LEFT, PathDirection.getStartingPathDirection(map, position));
   }
 
-  @Test public void test_getStartingPathDirection_Right() throws AsciiMapException {
+  @Test public void test_getStartingPathDirection_Right() throws CodeChallengeException {
     String asciiMapString = new StringBuilder()
       .append(NonPathCharacters.START.value())
       .append(PathCharacters.HORIZONTAL.value())
@@ -64,7 +60,7 @@ public class PathDirectionTest {
     assertEquals(PathDirection.RIGHT, PathDirection.getStartingPathDirection(map, position));
   }
 
-  @Test public void test_getStartingPathDirection_Multiple() throws AsciiMapException {
+  @Test public void test_getStartingPathDirection_Multiple() throws CodeChallengeException {
     String asciiMapString = new StringBuilder()
       .append(NonPathCharacters.START.value())
       .append(PathCharacters.HORIZONTAL.value())
@@ -75,23 +71,24 @@ public class PathDirectionTest {
     AsciiMap map = AsciiMap.ofString(asciiMapString);
     Position position = new Position(0, 0);
 
-    Assertions.assertThrows(MultipleStartingPathDirectionException.class, () -> {
+    Assertions.assertThrows(PathDirection.MultipleStartException.class, () -> {
       PathDirection.getStartingPathDirection(map, position);
     });
   }
 
-  @Test public void test_getStartingPathDirection_None() throws AsciiMapException {
+  @Test public void test_getStartingPathDirection_None() throws CodeChallengeException {
     String asciiMapString = new StringBuilder().append(NonPathCharacters.START.value()).toString();
 
     AsciiMap map = AsciiMap.ofString(asciiMapString);
     Position position = new Position(0, 0);
 
-    Assertions.assertThrows(NoStartingPathDirectionException.class, () -> {
+    Assertions.assertThrows(PathDirection.NoStartException.class, () -> {
       PathDirection.getStartingPathDirection(map, position);
     });
   }
 
-  @Test public void test_getStartingPathDirection_IgnoreNonPathChars() throws AsciiMapException {
+  @Test public void test_getStartingPathDirection_IgnoreNonPathChars() throws CodeChallengeException
+  {
     String asciiMapString = new StringBuilder()
       .append(NonPathCharacters.SPACE.value())
       .append(NonPathCharacters.START.value())
@@ -107,7 +104,7 @@ public class PathDirectionTest {
     assertEquals(PathDirection.RIGHT, PathDirection.getStartingPathDirection(map, position));
   }
 
-  @Test public void test_getPathDirection_Horizontal() throws AsciiMapException {
+  @Test public void test_getPathDirection_Horizontal() throws CodeChallengeException {
     String asciiMapString = new StringBuilder()
       .append(PathCharacters.HORIZONTAL.value())
       .append(LetterCharacters.A)
@@ -124,7 +121,7 @@ public class PathDirectionTest {
     assertEquals(currentDirection, PathDirection.getPathDirection(map, position, currentDirection));
   }
 
-  @Test public void test_getPathDirection_Vertical() throws AsciiMapException {
+  @Test public void test_getPathDirection_Vertical() throws CodeChallengeException {
     String asciiMapString = new StringBuilder()
       .append(PathCharacters.VERTICAL.value())
       .append(System.lineSeparator())
@@ -144,7 +141,7 @@ public class PathDirectionTest {
   }
 
   @Test public void test_getPathDirection_StraightThroughIntersectionLeftRight()
-    throws AsciiMapException
+    throws CodeChallengeException
   {
     String asciiMapString = new StringBuilder()
       .append(PathCharacters.HORIZONTAL.value())
@@ -160,7 +157,7 @@ public class PathDirectionTest {
   }
 
   @Test public void test_getPathDirection_StraightThroughIntersectionRightLeft()
-    throws AsciiMapException
+    throws CodeChallengeException
   {
     String asciiMapString = new StringBuilder()
       .append(PathCharacters.VERTICAL.value())
@@ -176,7 +173,7 @@ public class PathDirectionTest {
   }
 
   @Test public void test_getPathDirection_StraightThroughIntersectionUpDown()
-    throws AsciiMapException
+    throws CodeChallengeException
   {
     String asciiMapString = new StringBuilder()
       .append(PathCharacters.VERTICAL.value())
@@ -194,7 +191,7 @@ public class PathDirectionTest {
   }
 
   @Test public void test_getPathDirection_StraightThroughIntersectionDownUp()
-    throws AsciiMapException
+    throws CodeChallengeException
   {
     String asciiMapString = new StringBuilder()
       .append(PathCharacters.HORIZONTAL.value())
@@ -211,7 +208,7 @@ public class PathDirectionTest {
     assertEquals(currentDirection, PathDirection.getPathDirection(map, position, currentDirection));
   }
 
-  @Test public void test_getPathDirection_TurnUp() throws AsciiMapException {
+  @Test public void test_getPathDirection_TurnUp() throws CodeChallengeException {
     String asciiMapString = new StringBuilder()
       .append(PathCharacters.VERTICAL.value())
       .append(System.lineSeparator())
@@ -228,7 +225,7 @@ public class PathDirectionTest {
                  PathDirection.getPathDirection(map, position, PathDirection.RIGHT));
   }
 
-  @Test public void test_getPathDirection_TurnDown() throws AsciiMapException {
+  @Test public void test_getPathDirection_TurnDown() throws CodeChallengeException {
     String asciiMapString = new StringBuilder()
       .append(PathCharacters.TURN.value())
       .append(System.lineSeparator())
@@ -245,7 +242,7 @@ public class PathDirectionTest {
                  PathDirection.getPathDirection(map, position, PathDirection.RIGHT));
   }
 
-  @Test public void test_getPathDirection_TurnLeft() throws AsciiMapException {
+  @Test public void test_getPathDirection_TurnLeft() throws CodeChallengeException {
     String asciiMapString = new StringBuilder()
       .append(PathCharacters.HORIZONTAL.value())
       .append(PathCharacters.TURN.value())
@@ -261,7 +258,7 @@ public class PathDirectionTest {
                  PathDirection.getPathDirection(map, position, PathDirection.DOWN));
   }
 
-  @Test public void test_getPathDirection_TurnRight() throws AsciiMapException {
+  @Test public void test_getPathDirection_TurnRight() throws CodeChallengeException {
     String asciiMapString = new StringBuilder()
       .append(PathCharacters.TURN.value())
       .append(PathCharacters.HORIZONTAL.value())
@@ -277,7 +274,7 @@ public class PathDirectionTest {
                  PathDirection.getPathDirection(map, position, PathDirection.DOWN));
   }
 
-  @Test public void test_getPathDirection_FakeTurnHorizontal() throws AsciiMapException {
+  @Test public void test_getPathDirection_FakeTurnHorizontal() throws CodeChallengeException {
     String asciiMapString = new StringBuilder()
       .append(PathCharacters.HORIZONTAL.value())
       .append(PathCharacters.TURN.value())
@@ -287,16 +284,16 @@ public class PathDirectionTest {
     AsciiMap map = AsciiMap.ofString(asciiMapString);
     Position position = new Position(0, 1);
 
-    Assertions.assertThrows(FakeTurnPathDirectionException.class, () -> {
+    Assertions.assertThrows(PathDirection.FakeTurnException.class, () -> {
       PathDirection.getPathDirection(map, position, PathDirection.LEFT);
     });
 
-    Assertions.assertThrows(FakeTurnPathDirectionException.class, () -> {
+    Assertions.assertThrows(PathDirection.FakeTurnException.class, () -> {
       PathDirection.getPathDirection(map, position, PathDirection.RIGHT);
     });
   }
 
-  @Test public void test_getPathDirection_FakeTurnVertical() throws AsciiMapException {
+  @Test public void test_getPathDirection_FakeTurnVertical() throws CodeChallengeException {
     String asciiMapString = new StringBuilder()
       .append(PathCharacters.VERTICAL.value())
       .append(System.lineSeparator())
@@ -308,16 +305,16 @@ public class PathDirectionTest {
     AsciiMap map = AsciiMap.ofString(asciiMapString);
     Position position = new Position(1, 0);
 
-    Assertions.assertThrows(FakeTurnPathDirectionException.class, () -> {
+    Assertions.assertThrows(PathDirection.FakeTurnException.class, () -> {
       PathDirection.getPathDirection(map, position, PathDirection.UP);
     });
 
-    Assertions.assertThrows(FakeTurnPathDirectionException.class, () -> {
+    Assertions.assertThrows(PathDirection.FakeTurnException.class, () -> {
       PathDirection.getPathDirection(map, position, PathDirection.DOWN);
     });
   }
 
-  @Test public void test_getPathDirection_TForkHorizontal() throws AsciiMapException {
+  @Test public void test_getPathDirection_TForkHorizontal() throws CodeChallengeException {
     String asciiMapString = new StringBuilder()
       .append(PathCharacters.VERTICAL.value())
       .append(System.lineSeparator())
@@ -329,16 +326,16 @@ public class PathDirectionTest {
     AsciiMap map = AsciiMap.ofString(asciiMapString);
     Position position = new Position(1, 0);
 
-    Assertions.assertThrows(TForkPathDirectionException.class, () -> {
+    Assertions.assertThrows(PathDirection.TForkException.class, () -> {
       PathDirection.getPathDirection(map, position, PathDirection.LEFT);
     });
 
-    Assertions.assertThrows(TForkPathDirectionException.class, () -> {
+    Assertions.assertThrows(PathDirection.TForkException.class, () -> {
       PathDirection.getPathDirection(map, position, PathDirection.RIGHT);
     });
   }
 
-  @Test public void test_getPathDirection_TForkVertical() throws AsciiMapException {
+  @Test public void test_getPathDirection_TForkVertical() throws CodeChallengeException {
     String asciiMapString = new StringBuilder()
       .append(PathCharacters.HORIZONTAL.value())
       .append(PathCharacters.TURN.value())
@@ -348,17 +345,17 @@ public class PathDirectionTest {
     AsciiMap map = AsciiMap.ofString(asciiMapString);
     Position position = new Position(0, 1);
 
-    Assertions.assertThrows(TForkPathDirectionException.class, () -> {
+    Assertions.assertThrows(PathDirection.TForkException.class, () -> {
       PathDirection.getPathDirection(map, position, PathDirection.UP);
     });
 
-    Assertions.assertThrows(TForkPathDirectionException.class, () -> {
+    Assertions.assertThrows(PathDirection.TForkException.class, () -> {
       PathDirection.getPathDirection(map, position, PathDirection.DOWN);
     });
   }
 
   @Test public void test_getPathDirection_StraightThroughLetterLeftRight()
-    throws AsciiMapException
+    throws CodeChallengeException
   {
     String asciiMapString = new StringBuilder()
       .append(PathCharacters.HORIZONTAL.value())
@@ -374,13 +371,11 @@ public class PathDirectionTest {
   }
 
   @Test public void test_getPathDirection_StraightThroughLetterRightLeft()
-    throws AsciiMapException
+    throws CodeChallengeException
   {
     String asciiMapString = new StringBuilder()
       .append(LetterCharacters.A)
-      .append(LetterCharacters.A)
-      .append(PathCharacters.HORIZONTAL.value())
-      .toString();
+      .append(LetterCharacters.A).append(PathCharacters.HORIZONTAL.value()).toString();
 
     AsciiMap map = AsciiMap.ofString(asciiMapString);
     Position position = new Position(0, 1);
@@ -389,7 +384,9 @@ public class PathDirectionTest {
     assertEquals(currentDirection, PathDirection.getPathDirection(map, position, currentDirection));
   }
 
-  @Test public void test_getPathDirection_StraightThroughLetterUpDown() throws AsciiMapException {
+  @Test public void test_getPathDirection_StraightThroughLetterUpDown()
+    throws CodeChallengeException
+  {
     String asciiMapString = new StringBuilder()
       .append(PathCharacters.VERTICAL.value())
       .append(System.lineSeparator())
@@ -405,7 +402,9 @@ public class PathDirectionTest {
     assertEquals(currentDirection, PathDirection.getPathDirection(map, position, currentDirection));
   }
 
-  @Test public void test_getPathDirection_StraightThroughLetterDownUp() throws AsciiMapException {
+  @Test public void test_getPathDirection_StraightThroughLetterDownUp()
+    throws CodeChallengeException
+  {
     String asciiMapString = new StringBuilder()
       .append(LetterCharacters.A)
       .append(System.lineSeparator())
@@ -421,7 +420,7 @@ public class PathDirectionTest {
     assertEquals(currentDirection, PathDirection.getPathDirection(map, position, currentDirection));
   }
 
-  @Test public void test_getPathDirection_LetterTurnUp() throws AsciiMapException {
+  @Test public void test_getPathDirection_LetterTurnUp() throws CodeChallengeException {
     String asciiMapString = new StringBuilder()
       .append(PathCharacters.VERTICAL.value())
       .append(System.lineSeparator())
@@ -438,7 +437,7 @@ public class PathDirectionTest {
                  PathDirection.getPathDirection(map, position, PathDirection.RIGHT));
   }
 
-  @Test public void test_getPathDirection_LetterTurnDown() throws AsciiMapException {
+  @Test public void test_getPathDirection_LetterTurnDown() throws CodeChallengeException {
     String asciiMapString = new StringBuilder()
       .append(LetterCharacters.A)
       .append(System.lineSeparator())
@@ -455,7 +454,7 @@ public class PathDirectionTest {
                  PathDirection.getPathDirection(map, position, PathDirection.RIGHT));
   }
 
-  @Test public void test_getPathDirection_LetterTurnLeft() throws AsciiMapException {
+  @Test public void test_getPathDirection_LetterTurnLeft() throws CodeChallengeException {
     String asciiMapString = new StringBuilder()
       .append(PathCharacters.HORIZONTAL.value())
       .append(LetterCharacters.A)
@@ -471,7 +470,7 @@ public class PathDirectionTest {
                  PathDirection.getPathDirection(map, position, PathDirection.DOWN));
   }
 
-  @Test public void test_getPathDirection_LetterTurnRight() throws AsciiMapException {
+  @Test public void test_getPathDirection_LetterTurnRight() throws CodeChallengeException {
     String asciiMapString = new StringBuilder()
       .append(LetterCharacters.A)
       .append(PathCharacters.HORIZONTAL.value())
@@ -487,7 +486,7 @@ public class PathDirectionTest {
                  PathDirection.getPathDirection(map, position, PathDirection.DOWN));
   }
 
-  @Test public void test_getPathDirection_LetterTForkHorizontal() throws AsciiMapException {
+  @Test public void test_getPathDirection_LetterTForkHorizontal() throws CodeChallengeException {
     String asciiMapString = new StringBuilder()
       .append(PathCharacters.VERTICAL.value())
       .append(System.lineSeparator())
@@ -499,16 +498,16 @@ public class PathDirectionTest {
     AsciiMap map = AsciiMap.ofString(asciiMapString);
     Position position = new Position(1, 0);
 
-    Assertions.assertThrows(TForkPathDirectionException.class, () -> {
+    Assertions.assertThrows(PathDirection.TForkException.class, () -> {
       PathDirection.getPathDirection(map, position, PathDirection.LEFT);
     });
 
-    Assertions.assertThrows(TForkPathDirectionException.class, () -> {
+    Assertions.assertThrows(PathDirection.TForkException.class, () -> {
       PathDirection.getPathDirection(map, position, PathDirection.RIGHT);
     });
   }
 
-  @Test public void test_getPathDirection_LetterTForkVertical() throws AsciiMapException {
+  @Test public void test_getPathDirection_LetterTForkVertical() throws CodeChallengeException {
     String asciiMapString = new StringBuilder()
       .append(PathCharacters.HORIZONTAL.value())
       .append(LetterCharacters.A)
@@ -518,11 +517,11 @@ public class PathDirectionTest {
     AsciiMap map = AsciiMap.ofString(asciiMapString);
     Position position = new Position(0, 1);
 
-    Assertions.assertThrows(TForkPathDirectionException.class, () -> {
+    Assertions.assertThrows(PathDirection.TForkException.class, () -> {
       PathDirection.getPathDirection(map, position, PathDirection.UP);
     });
 
-    Assertions.assertThrows(TForkPathDirectionException.class, () -> {
+    Assertions.assertThrows(PathDirection.TForkException.class, () -> {
       PathDirection.getPathDirection(map, position, PathDirection.DOWN);
     });
   }

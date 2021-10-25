@@ -1,10 +1,9 @@
 package org.dida43.map.walker.map;
 
+import org.dida43.map.walker.CodeChallengeException;
 import org.dida43.map.walker.enums.LetterCharacters;
 import org.dida43.map.walker.enums.NonPathCharacters;
 import org.dida43.map.walker.enums.PathCharacters;
-import org.dida43.map.walker.exceptions.AsciiMapException;
-import org.dida43.map.walker.exceptions.map.*;
 import org.dida43.map.walker.pojos.Position;
 
 public class AsciiMap {
@@ -72,13 +71,13 @@ public class AsciiMap {
     return endPosition;
   }
 
-  public static AsciiMap ofString(String string) throws AsciiMapException {
+  public static AsciiMap ofString(String string) throws CodeChallengeException {
     if (string == null)
-      throw new AsciiMapException("Cannot make ascii map for non existing string");
+      throw new CodeChallengeException("Cannot make ascii map for non existing string");
     if (string.isEmpty())
-      throw new AsciiMapException("Cannot make ascii map for empty file");
+      throw new CodeChallengeException("Cannot make ascii map for empty string");
     if (!isStringValid(string))
-      throw new AsciiMapException("Cannot make ascii map for non valid characters");
+      throw new CodeChallengeException("Cannot make ascii map for non valid characters");
 
     String[] rows = string.split(System.lineSeparator());
     char[][] map = new char[rows.length][];
@@ -96,5 +95,42 @@ public class AsciiMap {
       "["+LetterCharacters.charset+PathCharacters.charset+NonPathCharacters.SPACE.value()+
       NonPathCharacters.START.value()+"]+";
     return withoutNewLine.matches(regex);
+  }
+
+  public static class MultipleStartsException extends CodeChallengeException {
+    public MultipleStartsException() {
+      super("Multiple starts found in ascii map");
+    }
+  }
+
+  public static class MultipleEndsException extends CodeChallengeException {
+    public MultipleEndsException() {
+      super("Multiple ends found in ascii map");
+    }
+  }
+
+  public static class NoStartException extends CodeChallengeException {
+    public NoStartException() {
+      super("No start found in ascii map");
+    }
+  }
+
+  public static class NoEndException extends CodeChallengeException {
+    public NoEndException() {
+      super("No end found in ascii map");
+    }
+  }
+
+  public static class VisitPositionException extends CodeChallengeException {
+    public VisitPositionException(Position position) {
+      super("Cannot visit position: "+position.toString()+" because it is out of map.");
+    }
+  }
+
+  public static class IsPositionVisitedException extends CodeChallengeException {
+    public IsPositionVisitedException(Position position) {
+      super(
+        "Cannot check if position: "+position.toString()+" is visited because it is out of map.");
+    }
   }
 }

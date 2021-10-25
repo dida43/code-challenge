@@ -4,12 +4,11 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import org.dida43.map.walker.exceptions.AsciiMapException;
 import org.dida43.map.walker.map.AsciiMap;
 import org.dida43.map.walker.map.AsciiMapWalker;
 import org.dida43.map.walker.pojos.Path;
 
-public class Main {
+public class CodeChallenge {
 
   public static void main(String[] args) {
 
@@ -54,7 +53,7 @@ public class Main {
     try {
       AsciiMap asciiMap = AsciiMap.ofString(mapAsString);
       path = AsciiMapWalker.recordPath(asciiMap);
-    } catch (AsciiMapException e) {
+    } catch (CodeChallengeException e) {
       System.out.println("Error: "+e.getMessage());
       System.exit(1);
     }
