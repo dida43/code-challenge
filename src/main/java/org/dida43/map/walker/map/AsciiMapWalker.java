@@ -1,12 +1,12 @@
 package org.dida43.map.walker.map;
 
 import org.dida43.map.walker.CodeChallengeException;
-import org.dida43.map.walker.enums.LetterCharacters;
-import org.dida43.map.walker.enums.NonPathCharacters;
-import org.dida43.map.walker.enums.PathCharacters;
-import org.dida43.map.walker.enums.PathDirection;
-import org.dida43.map.walker.pojos.Path;
-import org.dida43.map.walker.pojos.Position;
+import org.dida43.map.walker.characters.LetterCharacters;
+import org.dida43.map.walker.characters.NonPathCharacters;
+import org.dida43.map.walker.characters.PathCharacters;
+import org.dida43.map.walker.path.Path;
+import org.dida43.map.walker.path.PathDirection;
+import org.dida43.map.walker.path.Position;
 
 public class AsciiMapWalker {
 

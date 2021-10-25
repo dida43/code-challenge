@@ -1,4 +1,4 @@
-package org.dida43.map.walker.pojos;
+package org.dida43.map.walker.path;
 
 public class Path {
   private final String asCharacters;

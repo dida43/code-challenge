@@ -8,8 +8,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import org.dida43.map.walker.CodeChallengeException;
-import org.dida43.map.walker.enums.PathDirection;
-import org.dida43.map.walker.pojos.Path;
+import org.dida43.map.walker.path.Path;
+import org.dida43.map.walker.path.PathDirection;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

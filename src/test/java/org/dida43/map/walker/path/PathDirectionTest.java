@@ -1,8 +1,10 @@
-package org.dida43.map.walker.enums;
+package org.dida43.map.walker.path;
 
 import org.dida43.map.walker.CodeChallengeException;
+import org.dida43.map.walker.characters.LetterCharacters;
+import org.dida43.map.walker.characters.NonPathCharacters;
+import org.dida43.map.walker.characters.PathCharacters;
 import org.dida43.map.walker.map.AsciiMap;
-import org.dida43.map.walker.pojos.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

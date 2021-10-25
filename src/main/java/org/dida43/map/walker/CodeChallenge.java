@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import org.dida43.map.walker.map.AsciiMap;
 import org.dida43.map.walker.map.AsciiMapWalker;
-import org.dida43.map.walker.pojos.Path;
+import org.dida43.map.walker.path.Path;
 
 public class CodeChallenge {
 

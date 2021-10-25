@@ -1,4 +1,4 @@
-package org.dida43.map.walker.enums;
+package org.dida43.map.walker.characters;
 
 import java.util.HashMap;
 import java.util.Map;

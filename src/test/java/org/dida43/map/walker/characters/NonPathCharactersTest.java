@@ -1,4 +1,4 @@
-package org.dida43.map.walker.enums;
+package org.dida43.map.walker.characters;
 
 import org.junit.jupiter.api.Test;
 

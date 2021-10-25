@@ -103,7 +103,8 @@ $ mvn test
 [INFO] Copying 0 resource
 [INFO] 
 [INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ code-challenge ---
-[INFO] Nothing to compile - all classes are up to date
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 10 source files to /Users/dida43/git/code-challenge/target/classes
 [INFO] 
 [INFO] --- maven-resources-plugin:3.2.0:testResources (default-testResources) @ code-challenge ---
 [INFO] Using 'UTF-8' encoding to copy filtered resources.
@@ -111,7 +112,8 @@ $ mvn test
 [INFO] Copying 16 resources
 [INFO] 
 [INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ code-challenge ---
-[INFO] Nothing to compile - all classes are up to date
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 7 source files to /Users/dida43/git/code-challenge/target/test-classes
 [INFO] 
 [INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ code-challenge ---
 [INFO] Surefire report directory: /Users/dida43/git/code-challenge/target/surefire-reports
@@ -119,20 +121,20 @@ $ mvn test
 -------------------------------------------------------
  T E S T S
 -------------------------------------------------------
-Running org.dida43.map.walker.enums.NonPathCharactersTest
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 sec
-Running org.dida43.map.walker.enums.PathDirectionTest
-Tests run: 31, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 sec
-Running org.dida43.map.walker.enums.PathCharactersTest
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec
-Running org.dida43.map.walker.enums.LetterCharactersTest
+Running org.dida43.map.walker.path.PathDirectionTest
+Tests run: 31, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.023 sec
+Running org.dida43.map.walker.path.PositionTest
 Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec
 Running org.dida43.map.walker.map.AsciiMapTest
-Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 sec
+Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 sec
 Running org.dida43.map.walker.map.AsciiMapWalkerTest
-Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.049 sec
-Running org.dida43.map.walker.pojos.PositionTest
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec
+Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.041 sec
+Running org.dida43.map.walker.characters.NonPathCharactersTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec
+Running org.dida43.map.walker.characters.PathCharactersTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 sec
+Running org.dida43.map.walker.characters.LetterCharactersTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec
 
 Results :
 
@@ -141,8 +143,8 @@ Tests run: 64, Failures: 0, Errors: 0, Skipped: 0
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  1.668 s
-[INFO] Finished at: 2021-10-25T10:45:55+02:00
+[INFO] Total time:  2.985 s
+[INFO] Finished at: 2021-10-25T16:27:12+02:00
 [INFO] ------------------------------------------------------------------------
 
 ```
