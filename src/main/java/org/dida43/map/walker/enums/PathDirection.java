@@ -15,27 +15,27 @@ public enum PathDirection {
     throws NoStartingPathDirectionException, MultipleStartingPathDirectionException
   {
     PathDirection startingPathDirection = null;
-    int noOfTraversableChars = 0;
+    int noOfWalkableChars = 0;
     if (AsciiMapWalker.canWalk(asciiMap.getCharForPosition(position.up()))) {
-      noOfTraversableChars++;
+      noOfWalkableChars++;
       startingPathDirection = PathDirection.UP;
     }
     if (AsciiMapWalker.canWalk(asciiMap.getCharForPosition(position.down()))) {
-      noOfTraversableChars++;
+      noOfWalkableChars++;
       startingPathDirection = PathDirection.DOWN;
     }
     if (AsciiMapWalker.canWalk(asciiMap.getCharForPosition(position.left()))) {
-      noOfTraversableChars++;
+      noOfWalkableChars++;
       startingPathDirection = PathDirection.LEFT;
     }
     if (AsciiMapWalker.canWalk(asciiMap.getCharForPosition(position.right()))) {
-      noOfTraversableChars++;
+      noOfWalkableChars++;
       startingPathDirection = PathDirection.RIGHT;
     }
 
-    if (noOfTraversableChars < 1)
+    if (noOfWalkableChars < 1)
       throw new NoStartingPathDirectionException(position);
-    if (noOfTraversableChars > 1)
+    if (noOfWalkableChars > 1)
       throw new MultipleStartingPathDirectionException(position);
 
     return startingPathDirection;
